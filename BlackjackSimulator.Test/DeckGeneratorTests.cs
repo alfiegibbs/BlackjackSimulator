@@ -8,24 +8,31 @@ namespace BlackjackSimulator.Test
 
     public class DeckGeneratorTests
     {
-        [Fact]
+        [ Fact ]
         public static void ShouldGenerate52Cards()
         {
             var generator = new DeckGenerator();
             var deck = generator.GenerateDeck();
-            deck.Count.ShouldBe(52);
+            deck.Count.ShouldBe( 52 );
         }
 
-        [Fact]
+        [ Fact ]
         public static void ShouldHaveUniqueCards()
         {
             var uniqueCards = new List<string>();
             var generator = new DeckGenerator();
             var deck = generator.GenerateDeck();
-                                                                    // Lambda expression, where
-            foreach (var card in deck.Where(card => uniqueCards.Any(x => x == "")))
+
+            foreach ( var card in deck )
             {
-                Assert.False(true);
+                if ( uniqueCards.Any( x => x == card.ToString() ) )
+                {
+                    Assert.False( true, $"Duplicate card found: {card}" );
+                }
+                else
+                {
+                    uniqueCards.Add( card.ToString() );
+                }
             }
         }
     }

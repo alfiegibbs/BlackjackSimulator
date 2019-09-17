@@ -1,5 +1,6 @@
 ﻿namespace BlackjackSimulator.Deck
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using BlackjackSimulator.Models;
@@ -10,10 +11,18 @@
         {
             var cards = new List<Card>();
 
-            // Add a card to the List of "cards" 52 times, to generate a full deck.
-            for (int i = 0; i < 52; i++)
+            var deck = Enum.GetValues( typeof( Rank ) ).Cast<Rank>();
+
+            foreach ( var suit in Enum.GetValues( typeof( Suit ) ).Cast<Suit>() )
             {
-                cards.Add(new Card());
+                foreach ( var rank in Enum.GetValues( typeof( Rank ) ).Cast<Rank>() )
+                {
+                    cards.Add( new Card
+                    {
+                        Rank = rank,
+                        Suit = suit
+                    } );
+                }
             }
 
             return cards;
