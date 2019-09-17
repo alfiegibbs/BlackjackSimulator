@@ -10,6 +10,7 @@
         {
             var cards = new List<Card>();
 
+            // Add a card to the List of "cards" 52 times, to generate a full deck.
             for (int i = 0; i < 52; i++)
             {
                 cards.Add(new Card());

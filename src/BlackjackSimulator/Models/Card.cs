@@ -1,13 +1,16 @@
 ﻿namespace BlackjackSimulator.Models
 {
+    using System;
+
     public class Card
     {
-        public static Suit Suit { get; set; }
-        public static Rank Rank { get; set; }
+        public Rank Rank { get; set; }
+
+        public Suit Suit { get; set; }
 
         public override string ToString()
         {
-            return "";
+            return $"{Rank.ToString()}_{Suit:G}";
         }
     }
 }

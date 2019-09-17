@@ -1,36 +1,31 @@
 namespace BlackjackSimulator.Test
 {
-    using System;
+    using BlackjackSimulator.Deck;
+    using Shouldly;
     using System.Collections.Generic;
     using System.Linq;
     using Xunit;
-    using BlackjackSimulator.Deck;
-    using Shouldly;
 
     public class DeckGeneratorTests
     {
-        [ Fact ]
+        [Fact]
         public static void ShouldGenerate52Cards()
         {
             var generator = new DeckGenerator();
             var deck = generator.GenerateDeck();
-            deck.Count.ShouldBe( 52 );
+            deck.Count.ShouldBe(52);
         }
 
-        [ Fact ]
+        [Fact]
         public static void ShouldHaveUniqueCards()
         {
             var uniqueCards = new List<string>();
             var generator = new DeckGenerator();
             var deck = generator.GenerateDeck();
-
-            foreach (var card in deck)
+                                                                    // Lambda expression, where
+            foreach (var card in deck.Where(card => uniqueCards.Any(x => x == "")))
             {
-
-                if ( uniqueCards.Any( x => x == "" ) )
-                {
-                    Assert.False(true);
-                }
+                Assert.False(true);
             }
         }
     }
