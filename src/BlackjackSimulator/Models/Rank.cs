@@ -1,4 +1,4 @@
-﻿namespace BlackjackSimulator.CardProperties
+﻿namespace BlackjackSimulator.Models
 {
     public enum Rank
     {

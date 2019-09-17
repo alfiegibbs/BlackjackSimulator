@@ -1,9 +1,9 @@
-﻿namespace BlackjackSimulator.CardProperties
+﻿namespace BlackjackSimulator.Models
 {
     public enum Suit
     {
         Clubs,
-        Hearts,
+        Heart,
         Spades,
         Diamonds
     }

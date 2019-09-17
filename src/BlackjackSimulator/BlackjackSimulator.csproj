@@ -43,8 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CardProperties\Shoe.cs" />
-    <Compile Include="Dealer\DealerHand.cs" />
+    <Compile Include="Deck\DeckGenerator.cs" />
+    <Compile Include="Models\Shoe.cs" />
+    <Compile Include="Models\DealerHand.cs" />
     <Compile Include="GlobalActions\PlayerBlackjack.cs" />
     <Compile Include="GlobalActions\PlayerDraw.cs" />
     <Compile Include="GlobalActions\PlayerLose.cs" />
@@ -52,13 +53,14 @@
     <Compile Include="Player\Actions\Double.cs" />
     <Compile Include="Player\Actions\Hit.cs" />
     <Compile Include="Player\Actions\Stand.cs" />
-    <Compile Include="CardProperties\Card.cs" />
-    <Compile Include="CardProperties\Rank.cs" />
-    <Compile Include="CardProperties\Suit.cs" />
+    <Compile Include="Models\Card.cs" />
+    <Compile Include="Models\Rank.cs" />
+    <Compile Include="Models\Suit.cs" />
     <Compile Include="Player\PlayerHand.cs" />
     <Compile Include="Player\MoneyValue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Table\MinimumBet.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

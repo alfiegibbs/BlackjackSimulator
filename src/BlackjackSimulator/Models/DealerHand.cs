@@ -1,4 +1,4 @@
-﻿namespace BlackjackSimulator.Dealer
+﻿namespace BlackjackSimulator.Models
 {
     public class DealerHand
     {

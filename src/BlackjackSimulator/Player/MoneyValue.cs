@@ -2,6 +2,6 @@
 {
     public class MoneyValue
     {
-        public MoneyValue Money { get; set; }
+        public decimal Money { get; set; }
     }
 }

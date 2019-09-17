@@ -1,4 +1,4 @@
-﻿namespace BlackjackSimulator.Actions
+﻿namespace BlackjackSimulator.Player.Actions
 {
     public class Stand
     {
