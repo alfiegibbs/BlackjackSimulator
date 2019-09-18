@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Deck\DeckGenerator.cs" />
+    <Compile Include="Deck\ShoeGenerator.cs" />
     <Compile Include="Models\Shoe.cs" />
     <Compile Include="Models\DealerHand.cs" />
     <Compile Include="GlobalActions\PlayerBlackjack.cs" />

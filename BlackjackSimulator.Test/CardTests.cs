@@ -1,6 +1,5 @@
 namespace BlackjackSimulator.Test
 {
-    using BlackjackSimulator.Deck;
     using BlackjackSimulator.Models;
     using Shouldly;
     using Xunit;

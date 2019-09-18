@@ -11,8 +11,7 @@ namespace BlackjackSimulator.Test
         [ Fact ]
         public static void ShouldGenerate52Cards()
         {
-            var generator = new DeckGenerator();
-            var deck = generator.GenerateDeck();
+            var deck = DeckGenerator.GenerateDeck();
             deck.Count.ShouldBe( 52 );
         }
 
@@ -20,8 +19,7 @@ namespace BlackjackSimulator.Test
         public static void ShouldHaveUniqueCards()
         {
             var uniqueCards = new List<string>();
-            var generator = new DeckGenerator();
-            var deck = generator.GenerateDeck();
+            var deck = DeckGenerator.GenerateDeck();
 
             foreach ( var card in deck )
             {
