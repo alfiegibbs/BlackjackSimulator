@@ -1,6 +1,5 @@
 ﻿namespace BlackjackSimulator.Deck
 {
-    using System.Collections.Generic;
     using BlackjackSimulator.Models;
 
     public class ShoeGenerator
@@ -13,7 +12,6 @@
                 var deck = DeckGenerator.GenerateDeck();
                 shoe.Populate(deck);
             }
-
             return shoe;
         }
     }
