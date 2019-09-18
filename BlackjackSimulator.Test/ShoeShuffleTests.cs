@@ -2,10 +2,8 @@ namespace BlackjackSimulator.Test
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using BlackjackSimulator.Deck;
     using BlackjackSimulator.Models;
-    using Shouldly;
     using Xunit;
 
     public class ShoeShuffleTests
@@ -20,7 +18,7 @@ namespace BlackjackSimulator.Test
 
             // Make sure card are not simultaneous
             var cards = new List<Card>();
-            Random random = new Random();
+            var random = new Random();
             // generate random number with a maximum number of the amount of cards in the shoe
             foreach ( var unused in cards )
             {
