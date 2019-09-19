@@ -7,11 +7,12 @@
         public Shoe GenerateShoe( int deckCount )
         {
             var shoe = new Shoe();
-            for (int i = 0; i < deckCount; i++)
+            for ( var i = 0; i < deckCount; i++ )
             {
                 var deck = DeckGenerator.GenerateDeck();
-                shoe.Populate(deck);
+                shoe.Populate( deck );
             }
+
             return shoe;
         }
     }

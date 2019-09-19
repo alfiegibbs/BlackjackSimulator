@@ -1,10 +1,7 @@
 namespace BlackjackSimulator.Test
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
     using BlackjackSimulator.Deck;
-    using BlackjackSimulator.Models;
     using Shouldly;
     using Xunit;
 
@@ -27,16 +24,19 @@ namespace BlackjackSimulator.Test
             {
                 var originalRank = originalShoe[ i ].Rank;
                 var originalSuit = originalShoe[ i ].Suit;
-                
+
                 var shuffledRank = shoe.Cards[ i ].Rank;
                 var shuffledSuit = shoe.Cards[ i ].Suit;
 
-                if ( originalRank == shuffledRank && originalSuit == shuffledSuit)
+
+                //If original rank and suit is the same as the shuffled rank and suit, add to the clashes variable
+                if ( originalRank == shuffledRank && originalSuit == shuffledSuit )
                 {
                     clashes++;
                 }
             }
-            double clashPercent = (clashes / (double)shoe.Cards.Count) * 100;
+
+            double clashPercent = ( clashes / (double) shoe.Cards.Count ) * 100;
 
             if ( clashPercent >= 10 )
             {
