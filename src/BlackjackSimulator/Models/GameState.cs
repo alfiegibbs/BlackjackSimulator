@@ -1,7 +1,7 @@
 ﻿namespace BlackjackSimulator.Models
 {
-    using System.Linq;
     using BlackjackSimulator.Deck;
+    using System.Linq;
 
     public class GameState
     {
@@ -16,9 +16,7 @@
         public Card DealCard()
         {
             var originalShoe = CurrentShoe.Cards.ToList();
-
             var card = originalShoe[ 0 ];
-
             CurrentShoe.Cards.Remove( card );
 
             return card;

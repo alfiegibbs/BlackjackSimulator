@@ -1,10 +1,8 @@
 ﻿namespace BlackjackSimulator
 {
     using System;
-    using System.CodeDom;
-    using System.Linq;
-    using BlackjackSimulator.GlobalActions;
     using BlackjackSimulator.Models;
+    using BlackjackSimulator.Player.Actions;
 
     class Program
     {
@@ -16,21 +14,19 @@
 
             var card = gameState.DealCard();
             DisplayCard( card );
-            Console.ReadLine();
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\r\nYour hand total value is: " + card.Value);
+            Console.ResetColor();
+            Console.WriteLine("Enter (h) to hit, (s) to stand, (d) to double");
         }
 
         public static void DisplayCard( Card card )
         {
             if ( card.Suit == Suit.Diamonds || card.Suit == Suit.Hearts )
-            {
                 Console.ForegroundColor = ConsoleColor.Red;
-            }
-            else
-            {
-                Console.ResetColor();
-            }
 
-            Console.Write( $"{card.Rank.ToString()} of {card.Suit:G}" );
+            Console.Write( $"{card.Rank:G} of {card.Suit:G}" );
         }
     }
 }
