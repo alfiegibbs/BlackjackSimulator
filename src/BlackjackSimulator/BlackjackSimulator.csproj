@@ -45,8 +45,10 @@
   <ItemGroup>
     <Compile Include="Deck\DeckGenerator.cs" />
     <Compile Include="Deck\ShoeGenerator.cs" />
+    <Compile Include="GameLoop.cs" />
     <Compile Include="GlobalActions\DealCards.cs" />
     <Compile Include="Models\GameState.cs" />
+    <Compile Include="Models\PlayerAction.cs" />
     <Compile Include="Models\Shoe.cs" />
     <Compile Include="Models\DealerHand.cs" />
     <Compile Include="GlobalActions\PlayerBlackjack.cs" />
@@ -54,7 +56,6 @@
     <Compile Include="GlobalActions\PlayerLose.cs" />
     <Compile Include="GlobalActions\PlayerWin.cs" />
     <Compile Include="Player\Actions\Double.cs" />
-    <Compile Include="Player\Actions\Hit.cs" />
     <Compile Include="Player\Actions\Stand.cs" />
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\Rank.cs" />

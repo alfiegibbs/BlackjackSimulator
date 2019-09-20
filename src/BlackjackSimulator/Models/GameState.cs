@@ -5,6 +5,7 @@
 
     public class GameState
     {
+        public int HandValue { get; set; }
         public Shoe CurrentShoe { get; set; }
 
         public GameState()
