@@ -7,6 +7,8 @@
     {
         public int HandValue { get; set; }
         public Shoe CurrentShoe { get; set; }
+        public int Money { get; set; }
+        public int Bet { get; set; }
 
         public GameState()
         {

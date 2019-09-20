@@ -1,15 +1,18 @@
 ﻿namespace BlackjackSimulator
 {
     using System;
+    using BlackjackSimulator.Deck;
     using BlackjackSimulator.Models;
 
     public class GameLoop
     {
+        private readonly ASCIICardGenerator asciiGenerator = new ASCIICardGenerator();
         private readonly GameState gameState = new GameState();
 
         public void Start()
         {
             Console.WriteLine( "Welcome to the Command Line Blackjack!" );
+            gameState.Money += 500;
             Game();
         }
 
@@ -40,10 +43,13 @@
 
         public void DisplayCard( Card card )
         {
-            if ( card.Suit == Suit.Diamonds || card.Suit == Suit.Hearts )
+            if ( card.Suit == Models.Suit.Diamonds || card.Suit == Models.Suit.Hearts )
                 Console.ForegroundColor = ConsoleColor.Red;
 
-            Console.Write( $"{card.Rank:G} of {card.Suit:G}" );
+
+            Console.Write( asciiGenerator.GenerateTextForCard( card ) + "\r\n" );
+
+//            Console.WriteLine( $"{card.ToRank()}{card.ToSuitUTF8()}" );
             gameState.HandValue += card.Value;
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine( "\r\nYour hand total value is: " + gameState.HandValue );
@@ -54,7 +60,7 @@
             while ( true )
             {
                 Console.ResetColor();
-                Console.WriteLine( $"HandValue: {gameState.HandValue}" );
+                Console.WriteLine( "Money: " + gameState.Money );
                 Console.WriteLine( "Enter (h) to hit, (s) to stand, (d) to double, (q) to quit" );
 
                 var option = Console.ReadKey();
@@ -70,7 +76,7 @@
                     case 'd':
                         return PlayerAction.Double;
                     default:
-                        Console.WriteLine("\r\nThat is not a valid choice.");
+                        Console.WriteLine( "\r\nThat is not a valid choice." );
                         break;
                 }
             }

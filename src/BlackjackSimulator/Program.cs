@@ -2,14 +2,15 @@
 {
     using System;
     using BlackjackSimulator.Models;
-    using BlackjackSimulator.Player.Actions;
 
     class Program
     {
-        static readonly GameState gameState = new GameState();
+        private static readonly GameState gameState = new GameState();
 
-        static void Main( string[] args )
+        private static void Main( string[] args )
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
             var game = new GameLoop();
             game.Start();
         }
