@@ -9,10 +9,15 @@
         private readonly ASCIICardGenerator asciiGenerator = new ASCIICardGenerator();
         private readonly GameState gameState = new GameState();
 
+        public GameLoop()
+        {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+        }
+
         public void Start()
         {
             Console.WriteLine( "Welcome to the Command Line Blackjack!" );
-            gameState.Money += 500;
+            gameState.Money = 500;
             Game();
         }
 

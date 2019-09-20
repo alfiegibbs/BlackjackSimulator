@@ -57,15 +57,6 @@ namespace BlackjackSimulator.Test
 
             var groups = shoe.Cards.GroupBy( x => new { x.Rank, x.Suit } ).ToList();
             groups.Count.ShouldBe( 52 );
-//
-//            foreach ( var group in groups )
-//            {
-//                group.Key.Rank
-//                foreach ( Card card in group )
-//                {
-//
-//                }
-//            }
 
             var cardsPerGroup = groups.Select( x => x.Count() );
             cardsPerGroup.All( x => x == deckCount ).ShouldBeTrue();
