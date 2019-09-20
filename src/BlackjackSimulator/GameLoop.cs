@@ -19,8 +19,22 @@
             {
                 var card = gameState.DealCard();
                 DisplayCard( card );
-                DisplayChoice();
-                ActionHit();
+                var choice = GetUserChoice();
+
+                switch ( choice )
+                {
+                    case PlayerAction.Hit:
+                        ActionHit();
+                        break;
+                    case PlayerAction.Stand:
+                        break;
+                    case PlayerAction.Double:
+                        break;
+                    case PlayerAction.Exit:
+                        return;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
         }
 
@@ -35,45 +49,47 @@
             Console.WriteLine( "\r\nYour hand total value is: " + gameState.HandValue );
         }
 
-        public PlayerAction DisplayChoice()
+        public PlayerAction GetUserChoice()
         {
-            Console.ResetColor();
-            Console.WriteLine( $"HandValue: {gameState.HandValue}" );
-            Console.WriteLine( "Enter (h) to hit, (s) to stand, (d) to double, (q) to quit" );
-
-            var option = Console.ReadKey();
-
-            if ( option.KeyChar == 'h' )
+            while ( true )
             {
-                Console.WriteLine( "\r\nYou chose hit!" );
-                ActionHit();
-                return PlayerAction.Hit;
-            }
+                Console.ResetColor();
+                Console.WriteLine( $"HandValue: {gameState.HandValue}" );
+                Console.WriteLine( "Enter (h) to hit, (s) to stand, (d) to double, (q) to quit" );
 
-            if ( option.KeyChar == 'q' )
-            {
-                Environment.Exit(0);
-                return PlayerAction.Exit;
-            }
+                var option = Console.ReadKey();
 
-            if ( option.KeyChar == 's' )
-            {
-                Console.WriteLine( "\r\nYou chose stand!" );
-                return PlayerAction.Stand;
+                switch ( option.KeyChar )
+                {
+                    case 'h':
+                        return PlayerAction.Hit;
+                    case 'q':
+                        return PlayerAction.Exit;
+                    case 's':
+                        return PlayerAction.Stand;
+                    case 'd':
+                        return PlayerAction.Double;
+                    default:
+                        Console.WriteLine("\r\nThat is not a valid choice.");
+                        break;
+                }
             }
-
-            if ( option.KeyChar == 'd' )
-            {
-                Console.WriteLine( "\r\nYou chose double!" );
-                return PlayerAction.Double;
-            }
-
-            return PlayerAction.Exit;
         }
 
         public void ActionHit()
         {
             Console.WriteLine( "\r\nYou chose hit!" );
+            gameState.DealCard();
+        }
+
+        public void ActionStand()
+        {
+            Console.WriteLine( "\r\nYou chose stand!" );
+        }
+
+        public void ActionDouble()
+        {
+            Console.WriteLine( "\r\nYou chose double!" );
             gameState.DealCard();
         }
     }
