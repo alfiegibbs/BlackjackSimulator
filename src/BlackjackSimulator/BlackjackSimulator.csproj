@@ -33,8 +33,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Colorful.Console, Version=1.2.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Colorful.Console.1.2.9\lib\net461\Colorful.Console.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,8 +51,10 @@
     <Compile Include="Deck\ShoeGenerator.cs" />
     <Compile Include="GameLoop.cs" />
     <Compile Include="Deck\ASCIICardGenerator.cs" />
+    <Compile Include="Models\CardColour\CardHandRepresentation.cs" />
     <Compile Include="Models\CardExtensions.cs" />
     <Compile Include="Models\GameState.cs" />
+    <Compile Include="Models\Hand.cs" />
     <Compile Include="Models\PlayerAction.cs" />
     <Compile Include="Models\Shoe.cs" />
     <Compile Include="Models\Card.cs" />
@@ -59,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

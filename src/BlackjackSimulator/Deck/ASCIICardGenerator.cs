@@ -1,7 +1,11 @@
 ﻿namespace BlackjackSimulator.Deck
 {
     using System;
+    using System.Drawing;
+    using System.Linq;
+    using System.Text;
     using BlackjackSimulator.Models;
+    using BlackjackSimulator.Models.CardColour;
 
     public class ASCIICardGenerator
     {
@@ -22,6 +26,84 @@
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        public string GenerateTextForHand( Hand hand )
+        {
+            var sb = new StringBuilder();
+
+            var cardList = hand.Cards.Select( GenerateTextForCard ).ToList();
+
+            string firstCard = cardList.FirstOrDefault();
+            if ( firstCard == null )
+            {
+                return "Card is null.";
+            }
+
+            int numLines = firstCard.Length - firstCard.Replace( Environment.NewLine, string.Empty ).Length;
+
+            for ( int i = 0; i < numLines; i++ )
+            {
+                var lineBuilder = new StringBuilder();
+                foreach ( string line in cardList.Select( cardAscii => GetLine( cardAscii, i + 1 ) ) )
+                {
+                    lineBuilder.Append( line + " " );
+                }
+
+                sb.AppendLine( lineBuilder.ToString() );
+            }
+
+            return sb.ToString();
+        }
+
+        public CardHandRepresentation GenerateCardHandRepresentation( Hand hand )
+        {
+            var chr = new CardHandRepresentation
+            {
+                RawText = hand.Cards
+                              .Select( x => x.ToString() )
+                              .Aggregate( ( lhs, rhs ) => lhs + $"\r\n{rhs}" )
+            };
+
+            if ( hand.Cards.Count >= 7 )
+            {
+                chr.IsOverCardLimit = true;
+                return chr;
+            }
+
+            var cardList = hand.Cards.Select( GenerateTextForCard ).ToList();
+
+            string firstCard = cardList.FirstOrDefault();
+            if ( firstCard == null )
+            {
+                return null;
+            }
+
+            for ( int i = 0; i < 13; i++ )
+            {
+                var cardHandLine = new CardHandLine();
+                foreach ( var card in hand.Cards )
+                {
+                    string cardAscii = GetLine( GenerateTextForCard( card ), i + 1 );
+                    cardHandLine.CardLineSegments.Add( new CardLineSegment
+                    {
+                        Text = cardAscii,
+                        Colour = card.Suit == Models.Suit.Diamonds || card.Suit == Models.Suit.Hearts
+                            ? Color.FromArgb( 231, 72, 86 )
+                            : Color.FromArgb( 204, 204, 204 )
+                    } );
+                }
+
+                chr.CardHandLines.Add( cardHandLine );
+            }
+
+            return chr;
+        }
+
+        private string GetLine( string text, int lineNo )
+        {
+            string[] lines = text.Replace( "\r", "" ).Split( '\n' );
+            return lines.Length >= lineNo ? lines[ lineNo - 1 ] : null;
         }
 
         public string GetCardText( Card card )
@@ -60,7 +142,7 @@
         }
 
         public static string AceCard =
-            @" -------------
+            @" ------------- 
 |AX           |
 |   -------   |
 |  |       |  |
@@ -72,9 +154,9 @@
 |  |       |  |
 |   -------   |
 |           XA|
- -------------";
+ ------------- ";
 
-        public static string TwoCard = @" -------------
+        public static string TwoCard = @" ------------- 
 |2X           |
 |   -------   |
 |  |       |  |
@@ -86,9 +168,9 @@
 |  |       |  |
 |   -------   |
 |           X2|
- -------------";
+ ------------- ";
 
-        public static string ThreeCard = @" -------------
+        public static string ThreeCard = @" ------------- 
 |3X           |
 |   -------   |
 |  |   X   |  |
@@ -100,9 +182,9 @@
 |  |   X   |  |
 |   -------   |
 |           X3|
- -------------";
+ ------------- ";
 
-        public static string FourCard = @" -------------
+        public static string FourCard = @" ------------- 
 |4X           |
 |   -------   |
 |  |X     X|  |
@@ -114,9 +196,9 @@
 |  |X     X|  |
 |   -------   |
 |           X4|
- -------------";
+ ------------- ";
 
-        public static string FiveCard = @" -------------
+        public static string FiveCard = @" ------------- 
 |5X           |
 |   -------   |
 |  |X     X|  |
@@ -128,9 +210,9 @@
 |  |X     X|  |
 |   -------   |
 |           X5|
- -------------";
+ ------------- ";
 
-        public static string SixCard = @" -------------
+        public static string SixCard = @" ------------- 
 |6X           |
 |   -------   |
 |  |X     X|  |
@@ -142,9 +224,9 @@
 |  |X     X|  |
 |   -------   |
 |           X6|
- -------------";
+ ------------- ";
 
-        public static string SevenCard = @" -------------
+        public static string SevenCard = @" ------------- 
 |7X           |
 |   -------   |
 |  |X     X|  |
@@ -156,9 +238,9 @@
 |  |X     X|  |
 |   -------   |
 |           X7|
- -------------";
+ ------------- ";
 
-        public static string EightCard = @" -------------
+        public static string EightCard = @" ------------- 
 |8X           |
 |   -------   |
 |  |X     X|  |
@@ -170,9 +252,9 @@
 |  |X     X|  |
 |   -------   |
 |           X8|
- -------------";
+ ------------- ";
 
-        public static string NineCard = @" -------------
+        public static string NineCard = @" ------------- 
 |9X           |
 |   -------   |
 |  |X     X|  |
@@ -184,9 +266,9 @@
 |  |X     X|  |
 |   -------   |
 |           X9|
- -------------";
+ ------------- ";
 
-        public static string TenCard = @" -------------
+        public static string TenCard = @" ------------- 
 |10X          |
 |   -------   |
 |  |X     X|  |
@@ -198,9 +280,9 @@
 |  |X     X|  |
 |   -------   |
 |          X10|
- -------------";
+ ------------- ";
 
-        public static string JackCard = @" -------------
+        public static string JackCard = @" ------------- 
 |JX           |
 |   -------   |
 |  |X      |  |
@@ -212,9 +294,9 @@
 |  |      X|  |
 |   -------   |
 |           XJ|
- -------------";
+ ------------- ";
 
-        public static string QueenCard = @" -------------
+        public static string QueenCard = @" ------------- 
 |QX           |
 |   -------   |
 |  |X      |  |
@@ -226,9 +308,9 @@
 |  |      X|  |
 |   -------   |
 |           XQ|
- -------------";
+ ------------- ";
 
-        public static string KingCard = @" -------------
+        public static string KingCard = @" ------------- 
 |KX           |
 |   -------   |
 |  |X      |  |
@@ -240,7 +322,6 @@
 |  |      X|  |
 |   -------   |
 |           XK|
- -------------";
-
+ ------------- ";
     }
 }

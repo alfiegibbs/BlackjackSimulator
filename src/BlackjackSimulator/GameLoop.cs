@@ -23,10 +23,11 @@
 
         public void Game()
         {
+            var card = gameState.DealCard();
+            DisplayCard( card );
+
             while ( true )
             {
-                var card = gameState.DealCard();
-                DisplayCard( card );
                 var choice = GetUserChoice();
 
                 switch ( choice )
@@ -48,14 +49,9 @@
 
         public void DisplayCard( Card card )
         {
-            if ( card.Suit == Models.Suit.Diamonds || card.Suit == Models.Suit.Hearts )
-                Console.ForegroundColor = ConsoleColor.Red;
-
-
-            Console.Write( asciiGenerator.GenerateTextForCard( card ) + "\r\n" );
-
-//            Console.WriteLine( $"{card.ToRank()}{card.ToSuitUTF8()}" );
-            gameState.HandValue += card.Value;
+            Console.Clear();
+            var hand = asciiGenerator.GenerateCardHandRepresentation( gameState.CurrentHand );
+            hand.Render();
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine( "\r\nYour hand total value is: " + gameState.HandValue );
         }
@@ -90,7 +86,8 @@
         public void ActionHit()
         {
             Console.WriteLine( "\r\nYou chose hit!" );
-            gameState.DealCard();
+            var card = gameState.DealCard();
+            DisplayCard( card );
         }
 
         public void ActionStand()

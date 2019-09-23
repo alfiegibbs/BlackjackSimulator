@@ -29,5 +29,11 @@
 |           ♣A|
  -------------" );
         }
+
+        [ Fact ]
+        public void ShouldMakeHandInline()
+        {
+            
+        }
     }
 }
