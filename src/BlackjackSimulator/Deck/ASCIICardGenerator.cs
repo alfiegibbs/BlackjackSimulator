@@ -28,47 +28,47 @@
             }
         }
 
-        public string GenerateTextForHand( Hand hand )
-        {
-            var sb = new StringBuilder();
-
-            var cardList = hand.Cards.Select( GenerateTextForCard ).ToList();
-
-            string firstCard = cardList.FirstOrDefault();
-            if ( firstCard == null )
-            {
-                return "Card is null.";
-            }
-
-            int numLines = firstCard.Length - firstCard.Replace( Environment.NewLine, string.Empty ).Length;
-
-            for ( int i = 0; i < numLines; i++ )
-            {
-                var lineBuilder = new StringBuilder();
-                foreach ( string line in cardList.Select( cardAscii => GetLine( cardAscii, i + 1 ) ) )
-                {
-                    lineBuilder.Append( line + " " );
-                }
-
-                sb.AppendLine( lineBuilder.ToString() );
-            }
-
-            return sb.ToString();
-        }
+//        public string GenerateTextForHand( Hand hand )
+//        {
+//            var sb = new StringBuilder();
+//
+//            var cardList = hand.Cards.Select( GenerateTextForCard ).ToList();
+//
+//            string firstCard = cardList.FirstOrDefault();
+//            if ( firstCard == null )
+//            {
+//                return "Card is null.";
+//            }
+//
+//            int numLines = firstCard.Length - firstCard.Replace( Environment.NewLine, string.Empty ).Length;
+//
+//            for ( int i = 0; i < numLines; i++ )
+//            {
+//                var lineBuilder = new StringBuilder();
+//                foreach ( string line in cardList.Select( cardAscii => GetLine( cardAscii, i + 1 ) ) )
+//                {
+//                    lineBuilder.Append( line + " " );
+//                }
+//
+//                sb.AppendLine( lineBuilder.ToString() );
+//            }
+//
+//            return sb.ToString();
+//        }
 
         public CardHandRepresentation GenerateCardHandRepresentation( Hand hand )
         {
-            var chr = new CardHandRepresentation
+            var cardHandRepresentation = new CardHandRepresentation
             {
                 RawText = hand.Cards
-                              .Select( x => x.ToString() )
-                              .Aggregate( ( lhs, rhs ) => lhs + $"\r\n{rhs}" )
+                              .Select( x => x.ToString() ) // goes over the cards and gets a string representation of them and sticks them in a list
+                              .Aggregate( ( lhs, rhs ) => lhs + $"\r\n{rhs}" ) // sticking the hand together, seperated by new lines.
             };
 
             if ( hand.Cards.Count >= 7 )
             {
-                chr.IsOverCardLimit = true;
-                return chr;
+                cardHandRepresentation.IsOverCardLimit = true;
+                return cardHandRepresentation;
             }
 
             var cardList = hand.Cards.Select( GenerateTextForCard ).ToList();
@@ -84,20 +84,20 @@
                 var cardHandLine = new CardHandLine();
                 foreach ( var card in hand.Cards )
                 {
-                    string cardAscii = GetLine( GenerateTextForCard( card ), i + 1 );
-                    cardHandLine.CardLineSegments.Add( new CardLineSegment
+                    string cardAscii = GetLine( GenerateTextForCard( card ), i + 1 ); // get the specified line
+                    cardHandLine.CardLineSegments.Add( new CardLineSegment // add properties, Text, Colour, to CardLineSegment
                     {
                         Text = cardAscii,
-                        Colour = card.Suit == Models.Suit.Diamonds || card.Suit == Models.Suit.Hearts
+                        Colour = card.Suit == Models.Suit.Diamonds || card.Suit == Models.Suit.Hearts // if the suit is diamonds or hearts, set the colour to red, by default the colour will be white
                             ? Color.FromArgb( 231, 72, 86 )
                             : Color.FromArgb( 204, 204, 204 )
                     } );
                 }
 
-                chr.CardHandLines.Add( cardHandLine );
+                cardHandRepresentation.CardHandLines.Add( cardHandLine );
             }
 
-            return chr;
+            return cardHandRepresentation;
         }
 
         private string GetLine( string text, int lineNo )
@@ -323,5 +323,20 @@
 |   -------   |
 |           XK|
  ------------- ";
+
+        public static string BackCard = @" ------------- 
+|* * * * * * *|
+| * * * * * * |
+|* * * * * * *|
+| * * * * * * |
+|* * * * * * *|
+| * * * * * * |
+|* * * * * * *|
+| * * * * * * |
+|* * * * * * *|
+| * * * * * * |
+|* * * * * * *|
+ ------------- ";
+
     }
 }

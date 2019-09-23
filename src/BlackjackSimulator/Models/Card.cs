@@ -6,6 +6,7 @@
     {
         public Rank Rank { get; set; }
         public Suit Suit { get; set; }
+        public bool IsVisible { get; set; } = true;
 
         public int Value
         {

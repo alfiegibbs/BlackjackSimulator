@@ -1,11 +1,14 @@
 ﻿namespace BlackjackSimulator.Models
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
 
     public class Hand
     {
         public List<Card> Cards { get; set; } = new List<Card>();
+        public int HandValue => Cards.Sum( x => x.Value );
+
 
         public override string ToString()
         {
