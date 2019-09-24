@@ -32,24 +32,38 @@
 
             return card;
         }
+
         public Card DealDealerCard()
         {
             var originalShoe = CurrentShoe.Cards.ToList();
             var card = originalShoe[ 0 ];
 
-            DealerHand.Cards.Add( card );
+            var invisibleCard = new Card()
+            {
+                Rank = card.Rank,
+                Suit = card.Suit,
+                IsVisible = false
+            };
+            DealerHand.Cards.Add( invisibleCard );
+
             CurrentShoe.Cards.Remove( card );
 
             return card;
         }
+
         public Card DealDealerCardUp()
         {
             var originalShoe = CurrentShoe.Cards.ToList();
             var card = originalShoe[ 0 ];
 
-//            var invisibleCard = originalShoe[0].IsVisible = false;
-//
-//            DealerHand.Cards.Add( invisibleCard );
+            var visibleCard = new Card()
+            {
+                Rank = card.Rank,
+                Suit = card.Suit,
+                IsVisible = true
+            };
+            DealerHand.Cards.Add( visibleCard );
+
             CurrentShoe.Cards.Remove( card );
 
 

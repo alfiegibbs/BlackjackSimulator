@@ -53,7 +53,6 @@
     <Compile Include="Deck\ASCIICardGenerator.cs" />
     <Compile Include="Models\CardColour\CardHandRepresentation.cs" />
     <Compile Include="Models\CardExtensions.cs" />
-    <Compile Include="Models\GameAction.cs" />
     <Compile Include="Models\GameState.cs" />
     <Compile Include="Models\Hand.cs" />
     <Compile Include="Models\PlayerAction.cs" />

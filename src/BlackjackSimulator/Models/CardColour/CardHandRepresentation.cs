@@ -14,7 +14,7 @@
         {
             if ( IsOverCardLimit )
             {
-                Console.WriteLine(RawText);
+                Console.WriteLine( RawText );
                 return;
             }
 

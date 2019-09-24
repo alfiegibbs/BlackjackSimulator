@@ -3,7 +3,6 @@
     using System;
     using System.Drawing;
     using System.Linq;
-    using System.Text;
     using BlackjackSimulator.Models;
     using BlackjackSimulator.Models.CardColour;
 
@@ -28,41 +27,13 @@
             }
         }
 
-//        public string GenerateTextForHand( Hand hand )
-//        {
-//            var sb = new StringBuilder();
-//
-//            var cardList = hand.Cards.Select( GenerateTextForCard ).ToList();
-//
-//            string firstCard = cardList.FirstOrDefault();
-//            if ( firstCard == null )
-//            {
-//                return "Card is null.";
-//            }
-//
-//            int numLines = firstCard.Length - firstCard.Replace( Environment.NewLine, string.Empty ).Length;
-//
-//            for ( int i = 0; i < numLines; i++ )
-//            {
-//                var lineBuilder = new StringBuilder();
-//                foreach ( string line in cardList.Select( cardAscii => GetLine( cardAscii, i + 1 ) ) )
-//                {
-//                    lineBuilder.Append( line + " " );
-//                }
-//
-//                sb.AppendLine( lineBuilder.ToString() );
-//            }
-//
-//            return sb.ToString();
-//        }
-
         public CardHandRepresentation GenerateCardHandRepresentation( Hand hand )
         {
             var cardHandRepresentation = new CardHandRepresentation
             {
                 RawText = hand.Cards
                               .Select( x => x.ToString() ) // goes over the cards and gets a string representation of them and sticks them in a list
-                              .Aggregate( ( lhs, rhs ) => lhs + $"\r\n{rhs}" ) // sticking the hand together, seperated by new lines.
+                              .Aggregate( ( lhs, rhs ) => lhs + $"\r\n{rhs}" ) // sticking the hand together, separated by new lines.
             };
 
             if ( hand.Cards.Count >= 7 )
@@ -88,7 +59,7 @@
                     cardHandLine.CardLineSegments.Add( new CardLineSegment // add properties, Text, Colour, to CardLineSegment
                     {
                         Text = cardAscii,
-                        Colour = card.Suit == Models.Suit.Diamonds || card.Suit == Models.Suit.Hearts // if the suit is diamonds or hearts, set the colour to red, by default the colour will be white
+                        Colour = card.IsVisible && ( card.Suit == Models.Suit.Diamonds || card.Suit == Models.Suit.Hearts ) // if the suit is diamonds or hearts, set the colour to red, by default the colour will be white
                             ? Color.FromArgb( 231, 72, 86 )
                             : Color.FromArgb( 204, 204, 204 )
                     } );
@@ -102,12 +73,17 @@
 
         private string GetLine( string text, int lineNo )
         {
-            string[] lines = text.Replace( "\r", "" ).Split( '\n' );
+            var lines = text.Replace( "\r", "" ).Split( '\n' );
             return lines.Length >= lineNo ? lines[ lineNo - 1 ] : null;
         }
 
         public string GetCardText( Card card )
         {
+            if ( !card.IsVisible )
+            {
+                return BackCard;
+            }
+
             switch ( card.Rank )
             {
                 case Rank.Ace:
@@ -337,6 +313,5 @@
 | * * * * * * |
 |* * * * * * *|
  ------------- ";
-
     }
 }

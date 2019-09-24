@@ -26,7 +26,7 @@
         {
             GameState.Money = 500;
             // Give the dealer two initial cards
-            GameState.DealDealerCard();
+            GameState.DealDealerCardUp();
             GameState.DealDealerCard();
         }
 
@@ -95,14 +95,19 @@
         public void ActionHit()
         {
             Console.WriteLine( "\r\nYou chose hit!" );
+
             var card = GameState.DealPlayerCard();
             DisplayCard( card );
+
+            if ( GameState.PlayerHand.HandValue > 21 )
+            {
+                Console.WriteLine( "You have gone bust!" );
+            }
         }
 
         public void ActionStand()
         {
             Console.WriteLine( "\r\nYou chose stand!" );
-            
         }
 
         public void ActionDouble()
