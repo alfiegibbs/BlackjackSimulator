@@ -15,6 +15,11 @@
 
         public GameState()
         {
+            ResetGameState();
+        }
+
+        public void ResetGameState()
+        {
             CurrentShoe = new ShoeGenerator().GenerateShoe( 4 );
             PlayerHand = new Hand();
             DealerHand = new Hand();

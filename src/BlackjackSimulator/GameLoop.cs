@@ -101,7 +101,13 @@
 
             if ( GameState.PlayerHand.HandValue > 21 )
             {
-                Console.WriteLine( "You have gone bust!" );
+                var oldColour = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine( "You have gone bust!");
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("To start a new game press (h).");
+                Console.ForegroundColor = oldColour;
+                GameState.ResetGameState();
             }
         }
 
