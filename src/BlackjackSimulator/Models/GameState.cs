@@ -2,16 +2,17 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Data.SqlTypes;
     using BlackjackSimulator.Deck;
     using System.Linq;
 
     public class GameState
     {
         public Shoe CurrentShoe { get; set; }
-        public int Money { get; set; }
+        public int Money { get; set; } = 500;
         public Hand PlayerHand { get; set; }
         public Hand DealerHand { get; set; }
-        public int Bet { get; set; }
+        public int Bet { get; set; } = 100;
 
         public GameState()
         {

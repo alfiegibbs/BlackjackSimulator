@@ -8,6 +8,7 @@
     {
         public List<Card> Cards { get; set; } = new List<Card>();
         public int HandValue => Cards.Sum( x => x.Value );
+        public bool IsBust => HandValue > 21;
 
 
         public override string ToString()
