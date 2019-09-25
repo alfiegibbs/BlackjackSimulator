@@ -1,8 +1,5 @@
 ﻿namespace BlackjackSimulator.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data.SqlTypes;
     using BlackjackSimulator.Deck;
     using System.Linq;
 

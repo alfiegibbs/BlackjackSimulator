@@ -59,7 +59,7 @@
                     cardHandLine.CardLineSegments.Add( new CardLineSegment // add properties, Text, Colour, to CardLineSegment
                     {
                         Text = cardAscii,
-                        Colour = card.IsVisible && ( card.Suit == Models.Suit.Diamonds || card.Suit == Models.Suit.Hearts ) // if the suit is diamonds or hearts, set the colour to red, by default the colour will be white
+                        Colour = card.IsVisible && ( card.Suit == Suit.Diamonds || card.Suit == Suit.Hearts ) // if the suit is diamonds or hearts, set the colour to red, by default the colour will be white
                             ? Color.FromArgb( 231, 72, 86 )
                             : Color.FromArgb( 204, 204, 204 )
                     } );

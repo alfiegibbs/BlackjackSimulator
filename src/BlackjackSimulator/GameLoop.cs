@@ -35,7 +35,7 @@
 
             GameState.DealPlayerCard();
             DisplayPlayerHand();
-            Console.WriteLine( "A table fee of " + GameState.Bet +" has been taken." );
+            Console.WriteLine( "A table fee of " + GameState.Bet + " has been taken." );
 
             while ( true )
             {
@@ -195,7 +195,7 @@
             {
                 Console.WriteLine( "Dealer has won" );
             }
-            else if ( GameState.DealerHand.HandValue == GameState.PlayerHand.HandValue )
+            else if ( GameState.DealerHand.HandValue == GameState.PlayerHand.HandValue && !GameState.PlayerHand.IsBust )
             {
                 Console.WriteLine( "It's a draw! Initial bet has been returned to the player" );
                 GameState.Money += GameState.Bet;
