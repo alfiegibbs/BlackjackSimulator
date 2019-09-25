@@ -1,6 +1,7 @@
 ﻿namespace BlackjackSimulator
 {
     using System;
+    using System.Data.SqlTypes;
     using BlackjackSimulator.Deck;
     using BlackjackSimulator.Models;
 
@@ -165,19 +166,26 @@
 
         public void ActionDouble()
         {
-            Console.WriteLine( "\r\nYou chose double!" );
-            GameState.Money -= GameState.Bet;
-            GameState.Bet *= 2;
+            if ( GameState.Money <= GameState.Bet )
+            {
+                Console.WriteLine( "\r\nYou chose double!" );
+                GameState.Money -= GameState.Bet;
+                GameState.Bet *= 2;
 
-            GameState.DealPlayerCard();
-            DisplayPlayerHand();
-            DealDealerCards();
-            Console.WriteLine( "\r\nDealer Cards:\r\n" );
-            DisplayDealerHand();
-            DetermineWinner();
-            GameState.ResetGameState();
-            GameState.Bet /= 2;
-            PlaceBet();
+                GameState.DealPlayerCard();
+                DisplayPlayerHand();
+                DealDealerCards();
+                Console.WriteLine( "\r\nDealer Cards:\r\n" );
+                DisplayDealerHand();
+                DetermineWinner();
+                GameState.ResetGameState();
+                GameState.Bet /= 2;
+                PlaceBet();
+            }
+            else
+            {
+                Console.WriteLine( $"You do not have enough money to double, at least {GameState.Bet} is required" );
+            }
         }
 
         public void DetermineWinner()
@@ -188,7 +196,7 @@
                 var oC = Console.ForegroundColor; // Original console foreground colour
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine( "You have earnt 2x your initial bet!" );
-                GameState.Money += GameState.Bet;
+                GameState.Money += GameState.Bet * 2;
                 Console.ForegroundColor = oC;
             }
             else if ( !GameState.DealerHand.IsBust )

@@ -1,7 +1,9 @@
 ﻿namespace BlackjackSimulator.Models
 {
+    using System;
     using BlackjackSimulator.Deck;
     using System.Linq;
+    using System.Net.Mime;
 
     public class GameState
     {
@@ -23,6 +25,7 @@
             DealerHand = new Hand();
 
             CurrentShoe.Shuffle();
+            CheckPlayerHasMoney();
         }
 
         public Card DealPlayerCard()
@@ -71,6 +74,16 @@
 
 
             return card;
+        }
+
+        public void CheckPlayerHasMoney()
+        {
+            if ( Money <= 0 )
+            {
+                Console.WriteLine( "You have ran out of money! Restart the application to get more." );
+                Console.ReadLine();
+                Environment.Exit(0);
+            }
         }
     }
 }
