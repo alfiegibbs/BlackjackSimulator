@@ -1,7 +1,5 @@
 ﻿namespace BlackjackSimulator.Models
 {
-    using System.ComponentModel;
-
     public enum Rank
     {
         Ace,

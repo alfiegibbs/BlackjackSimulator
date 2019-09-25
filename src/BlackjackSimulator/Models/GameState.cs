@@ -3,7 +3,6 @@
     using System;
     using BlackjackSimulator.Deck;
     using System.Linq;
-    using System.Net.Mime;
 
     public class GameState
     {
@@ -82,7 +81,7 @@
             {
                 Console.WriteLine( "You have ran out of money! Restart the application to get more." );
                 Console.ReadLine();
-                Environment.Exit(0);
+                Environment.Exit( 0 );
             }
         }
     }
