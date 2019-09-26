@@ -7,10 +7,10 @@
     public class GameState
     {
         public Shoe CurrentShoe { get; set; }
-        public int Money { get; set; } = 500;
+        public double Money { get; set; } = 1000;
         public Hand PlayerHand { get; set; }
         public Hand DealerHand { get; set; }
-        public int Bet { get; set; } = 100;
+        public double Bet { get; set; } = 100;
 
         public GameState()
         {
@@ -61,7 +61,7 @@
             var originalShoe = CurrentShoe.Cards.ToList();
             var card = originalShoe[ 0 ];
 
-            var visibleCard = new Card()
+            var visibleCard = new Card
             {
                 Rank = card.Rank,
                 Suit = card.Suit,
@@ -73,6 +73,27 @@
 
 
             return card;
+        }
+
+        public bool DetectBlackjack()
+        {
+            if ( PlayerHand.Cards.Count != 2 )
+            {
+                return false;
+            }
+
+            if (PlayerHand.HandValue == 21 && PlayerHand.Cards.All( card => card.Rank == Rank.Ace || card.Rank == Rank.King || card.Rank == Rank.Queen || card.Rank == Rank.King || card.Rank == Rank.Jack ))
+            {
+                var oC = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine( "Blackjack! You have earnt 2.5x your initial bet!" );
+                Money += Bet * 2.5;
+                Console.ForegroundColor = oC;
+
+                return true;
+            }
+
+            return false;
         }
 
         public void CheckPlayerHasMoney()

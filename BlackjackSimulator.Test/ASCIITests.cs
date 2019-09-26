@@ -15,7 +15,7 @@
             var card = new Card();
 
             var generatedAscii = generator.GenerateTextForCard( card );
-            generatedAscii.ShouldBe( @" -------------
+            generatedAscii.ShouldBe( @" ------------- 
 |A♣           |
 |   -------   |
 |  |       |  |
@@ -27,7 +27,7 @@
 |  |       |  |
 |   -------   |
 |           ♣A|
- -------------" );
+ ------------- " );
         }
 
         [ Fact ]

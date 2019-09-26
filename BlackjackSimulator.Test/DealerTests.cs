@@ -1,10 +1,7 @@
 ﻿namespace BlackjackSimulator.Test
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
     using BlackjackSimulator.Models;
-    using BlackjackSimulator.Models.CardColour;
     using Shouldly;
     using Xunit;
 

@@ -1,6 +1,7 @@
 ﻿namespace BlackjackSimulator
 {
     using System;
+    using System.Linq;
     using BlackjackSimulator.Deck;
     using BlackjackSimulator.Models;
 
@@ -35,7 +36,7 @@
 
             GameState.DealPlayerCard();
             DisplayPlayerHand();
-            Console.WriteLine( "A table fee of " + GameState.Bet + " has been taken." );
+            Console.WriteLine( $"A table fee of {GameState.Bet} has been taken." );
 
             while ( true )
             {
@@ -71,7 +72,9 @@
             var hand = asciiGenerator.GenerateCardHandRepresentation( GameState.PlayerHand );
             hand.Render();
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine( "\r\nYour hand total value is: " + GameState.PlayerHand.HandValue );
+            Console.WriteLine( $"\r\nYour hand total value is: {GameState.PlayerHand.HandValue}" );
+
+            GameState.DetectBlackjack();
         }
 
         public void DisplayDealerHand()
