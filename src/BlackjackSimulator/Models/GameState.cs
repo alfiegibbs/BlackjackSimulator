@@ -10,6 +10,7 @@
         public double Money { get; set; } = 1000;
         public Hand PlayerHand { get; set; }
         public Hand DealerHand { get; set; }
+        public Hand CPUHand { get; set; }
         public double Bet { get; set; } = 100;
 
         public GameState()
@@ -21,6 +22,7 @@
         {
             CurrentShoe = new ShoeGenerator().GenerateShoe( 4 );
             PlayerHand = new Hand();
+            CPUHand = new Hand();
             DealerHand = new Hand();
 
             CurrentShoe.Shuffle();
@@ -33,6 +35,16 @@
             var card = originalShoe[ 0 ];
 
             PlayerHand.Cards.Add( card );
+            CurrentShoe.Cards.Remove( card );
+
+            return card;
+        }
+        public Card DealCPUCard()
+        {
+            var originalShoe = CurrentShoe.Cards.ToList();
+            var card = originalShoe[ 0 ];
+
+            CPUHand.Cards.Add( card );
             CurrentShoe.Cards.Remove( card );
 
             return card;

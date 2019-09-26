@@ -58,6 +58,8 @@
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+
+                CPULogic();
             }
         }
 
@@ -76,7 +78,7 @@
 
             GameState.DetectBlackjack();
         }
-
+        
         public void DisplayDealerHand()
         {
             foreach ( var card in GameState.DealerHand.Cards )
@@ -85,6 +87,11 @@
             }
 
             var hand = asciiGenerator.GenerateCardHandRepresentation( GameState.DealerHand );
+            hand.Render();
+        }
+        public void DisplayCPUHand()
+        {
+            var hand = asciiGenerator.GenerateCardHandRepresentation( GameState.CPUHand );
             hand.Render();
         }
 
@@ -115,6 +122,23 @@
             }
         }
 
+        public void CPULogic()
+        {
+            if ( GameState.CPUHand.IsBust )
+            {
+                return;
+            }
+
+            if ( GameState.CPUHand.HandValue < 17 )
+            {
+                ActionHitCPU();
+            }
+            else if ( GameState.CPUHand.HandValue > 17 )
+            {
+                ActionStandCPU();
+            }
+        }
+
         public void ActionHit()
         {
             Console.WriteLine( "\r\nYou chose hit!" );
@@ -135,6 +159,17 @@
                 PlaceBet();
             }
         }
+        public void ActionHitCPU()
+        {
+            Console.WriteLine("CPU Chose hit!");
+            GameState.DealCPUCard();
+
+            if ( GameState.CPUHand.HandValue > 21 )
+            {
+                GameState.ResetGameState();
+                PlaceBet();
+            }
+        }
 
         public void ActionStand()
         {
@@ -152,6 +187,21 @@
                 DealDealerCards();
                 Console.WriteLine( "\r\nDealer Cards:\r\n" );
                 DisplayDealerHand();
+                DetermineWinner();
+                GameState.ResetGameState();
+                PlaceBet();
+            }
+        }
+        public void ActionStandCPU()
+        {
+            Console.WriteLine("CPU Chose stand!");
+
+            if ( GameState.PlayerHand.HandValue < 17 )
+            {
+                Console.WriteLine( "CPU Stood!" );
+            }
+            else
+            {
                 DetermineWinner();
                 GameState.ResetGameState();
                 PlaceBet();
@@ -192,6 +242,7 @@
 
         public void DetermineWinner()
         {
+            DisplayCPUHand();
             if ( ( GameState.DealerHand.HandValue < GameState.PlayerHand.HandValue ) && !GameState.PlayerHand.IsBust )
             {
                 Console.WriteLine( "Player has won" );
@@ -218,6 +269,28 @@
                 Console.WriteLine( "You have earnt 2x your initial bet!" );
                 GameState.Money += GameState.Bet * 2;
                 Console.ForegroundColor = oC;
+            }
+            else
+            {
+                Console.WriteLine( "No one has won! Both player and dealer went bust!" );
+            }
+
+            if ( ( GameState.DealerHand.HandValue < GameState.CPUHand.HandValue ) && !GameState.CPUHand.IsBust )
+            {
+                Console.WriteLine( "CPU has won" );
+            }
+            else if ( !GameState.DealerHand.IsBust )
+            {
+                Console.WriteLine( "Dealer has won" );
+            }
+            else if ( GameState.DealerHand.HandValue == GameState.CPUHand.HandValue && !GameState.CPUHand.IsBust )
+            {
+                GameState.Money += GameState.Bet;
+            }
+            else if ( GameState.DealerHand.IsBust )
+            {
+                Console.WriteLine( "The CPU has won! Dealer went bust." );
+                GameState.Money += GameState.Bet * 2;
             }
             else
             {
