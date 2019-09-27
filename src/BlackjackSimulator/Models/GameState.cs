@@ -9,6 +9,7 @@
         public Shoe CurrentShoe { get; set; }
         public double Money { get; set; } = 1000;
         public Hand PlayerHand { get; set; }
+        public Hand PlayerSplitHand { get; set; }
         public Hand DealerHand { get; set; }
         public Hand CPUHand { get; set; }
         public double Bet { get; set; } = 100;
@@ -22,6 +23,7 @@
         {
             CurrentShoe = new ShoeGenerator().GenerateShoe( 4 );
             PlayerHand = new Hand();
+            PlayerSplitHand = new Hand();
             CPUHand = new Hand();
             DealerHand = new Hand();
 
@@ -36,6 +38,8 @@
 
             PlayerHand.Cards.Add( card );
             CurrentShoe.Cards.Remove( card );
+
+            DetectSplitability();
 
             return card;
         }
@@ -106,6 +110,15 @@
             }
 
             return false;
+        }
+
+        public bool DetectSplitability()
+        {
+            var groups = PlayerHand.Cards.GroupBy( x => new { x.Rank, x.Suit } );
+            var cardsPerGroup = groups.Select( x => x.Count() );
+            Console.WriteLine("Splitability detected!");
+            return cardsPerGroup.Any( x => x >= 2);
+
         }
 
         public void CheckPlayerHasMoney()

@@ -78,7 +78,7 @@
 
             GameState.DetectBlackjack();
         }
-        
+
         public void DisplayDealerHand()
         {
             foreach ( var card in GameState.DealerHand.Cards )
@@ -89,8 +89,11 @@
             var hand = asciiGenerator.GenerateCardHandRepresentation( GameState.DealerHand );
             hand.Render();
         }
+
         public void DisplayCPUHand()
         {
+
+
             var hand = asciiGenerator.GenerateCardHandRepresentation( GameState.CPUHand );
             hand.Render();
         }
@@ -159,9 +162,10 @@
                 PlaceBet();
             }
         }
+
         public void ActionHitCPU()
         {
-            Console.WriteLine("CPU Chose hit!");
+            Console.WriteLine( "CPU Chose hit!" );
             GameState.DealCPUCard();
 
             if ( GameState.CPUHand.HandValue > 21 )
@@ -173,8 +177,6 @@
 
         public void ActionStand()
         {
-            // stop the player from doing any further actions, doable when they have a hand value of 17+
-
             if ( GameState.PlayerHand.HandValue < 17 )
             {
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -192,9 +194,10 @@
                 PlaceBet();
             }
         }
+
         public void ActionStandCPU()
         {
-            Console.WriteLine("CPU Chose stand!");
+            Console.WriteLine( "CPU Chose stand!" );
 
             if ( GameState.PlayerHand.HandValue < 17 )
             {
@@ -274,6 +277,8 @@
             {
                 Console.WriteLine( "No one has won! Both player and dealer went bust!" );
             }
+
+            // CPUHand
 
             if ( ( GameState.DealerHand.HandValue < GameState.CPUHand.HandValue ) && !GameState.CPUHand.IsBust )
             {
