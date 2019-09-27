@@ -10,6 +10,8 @@
         [ Fact ]
         public void ShouldDetectSplitability()
         {
+            var gameLoop = new GameLoop();
+            
             var gameState = new GameState
             {
                 PlayerHand = new Hand
@@ -18,19 +20,18 @@
                     {
                         new Card
                         {
-                            Rank = Rank.Ace, 
+                            Rank = Rank.Five, 
                             Suit = Suit.Clubs
                         },
 
                         new Card
                         {
-                            Rank = Rank.Ace, 
+                            Rank = Rank.Five, 
                             Suit = Suit.Clubs
                         }
                     }
                 }
             };
-
 
             gameState.DetectSplitability().ShouldBeTrue();
         }

@@ -105,7 +105,7 @@
                 Console.WriteLine( "Blackjack! You have earnt 2.5x your initial bet!" );
                 Money += Bet * 2.5;
                 Console.ForegroundColor = oC;
-
+                ResetGameState();
                 return true;
             }
 
@@ -114,11 +114,15 @@
 
         public bool DetectSplitability()
         {
-            var groups = PlayerHand.Cards.GroupBy( x => new { x.Rank, x.Suit } );
-            var cardsPerGroup = groups.Select( x => x.Count() );
-            Console.WriteLine("Splitability detected!");
-            return cardsPerGroup.Any( x => x >= 2);
+            if ( !PlayerHand.IsBust )
+            {
+                var groups = PlayerHand.Cards.GroupBy( x => new { x.Rank, x.Suit } );
+                var cardsPerGroup = groups.Select( x => x.Count() );
+                Console.WriteLine("Splitability detected!");
+                return cardsPerGroup.Any( x => x >= 2);
+            }
 
+            return false;
         }
 
         public void CheckPlayerHasMoney()

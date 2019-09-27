@@ -30,12 +30,18 @@
             GameState.DealDealerCard();
         }
 
-        public void Game()
+        private void Game()
         {
             PlaceBet();
 
             GameState.DealPlayerCard();
             DisplayPlayerHand();
+
+            if ( GameState.DetectSplitability() )
+            {
+                DisplayPlayerHand();
+            }
+
             Console.WriteLine( $"A table fee of {GameState.Bet} has been taken." );
 
             while ( true )
@@ -68,7 +74,7 @@
             GameState.Money -= GameState.Bet;
         }
 
-        public void DisplayPlayerHand()
+        private void DisplayPlayerHand()
         {
             Console.Clear();
             var hand = asciiGenerator.GenerateCardHandRepresentation( GameState.PlayerHand );
@@ -79,7 +85,18 @@
             GameState.DetectBlackjack();
         }
 
-        public void DisplayDealerHand()
+        public void DisplayPlayerSplitHand()
+        {
+            Console.WriteLine( "\r\nSplit Hand:\r\n" );
+            var hand = asciiGenerator.GenerateCardHandRepresentation( GameState.PlayerSplitHand );
+            hand.Render();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine( $"\r\nYour split hand total value is: {GameState.PlayerSplitHand.HandValue}" );
+
+            GameState.DetectBlackjack();
+        }
+
+        private void DisplayDealerHand()
         {
             foreach ( var card in GameState.DealerHand.Cards )
             {
@@ -90,21 +107,20 @@
             hand.Render();
         }
 
-        public void DisplayCPUHand()
+        private void DisplayCPUHand()
         {
-
-
+            Console.WriteLine( "\r\nCPU Hand\r\n" );
             var hand = asciiGenerator.GenerateCardHandRepresentation( GameState.CPUHand );
             hand.Render();
         }
 
-        public PlayerAction GetUserChoice()
+        private PlayerAction GetUserChoice()
         {
             while ( true )
             {
                 Console.ResetColor();
                 Console.WriteLine( $"Money: {GameState.Money}, Stake: {GameState.Bet}" );
-                Console.WriteLine( "Enter (h) to hit, (s) to stand, (d) to double, (q) to quit" );
+                Console.WriteLine( "Enter (h) to hit, (s) to stand, (d) to double, (q) to quit, (p) to split" );
 
                 var option = Console.ReadKey();
 
@@ -118,6 +134,8 @@
                         return PlayerAction.Stand;
                     case 'd':
                         return PlayerAction.Double;
+                    case 'p':
+                        return PlayerAction.Split;
                     default:
                         Console.WriteLine( "\r\nThat is not a valid choice." );
                         break;
@@ -125,7 +143,7 @@
             }
         }
 
-        public void CPULogic()
+        private void CPULogic()
         {
             if ( GameState.CPUHand.IsBust )
             {
@@ -142,7 +160,16 @@
             }
         }
 
-        public void ActionHit()
+        public void ActionSplit()
+        {
+            Console.WriteLine( $"\r\nYou chose split! {GameState.Bet} has been taken." );
+            GameState.Money -= GameState.Bet;
+
+            var groups = GameState.PlayerHand.Cards.GroupBy( x => new { x.Rank, x.Suit } );
+            var cardsPerGroup = groups.Select( x => x.Count() );
+        }
+
+        private void ActionHit()
         {
             Console.WriteLine( "\r\nYou chose hit!" );
 
@@ -163,16 +190,10 @@
             }
         }
 
-        public void ActionHitCPU()
+        private void ActionHitCPU()
         {
             Console.WriteLine( "CPU Chose hit!" );
             GameState.DealCPUCard();
-
-            if ( GameState.CPUHand.HandValue > 21 )
-            {
-                GameState.ResetGameState();
-                PlaceBet();
-            }
         }
 
         public void ActionStand()
@@ -191,23 +212,16 @@
                 DisplayDealerHand();
                 DetermineWinner();
                 GameState.ResetGameState();
-                PlaceBet();
             }
         }
 
-        public void ActionStandCPU()
+        private void ActionStandCPU()
         {
             Console.WriteLine( "CPU Chose stand!" );
 
             if ( GameState.PlayerHand.HandValue < 17 )
             {
                 Console.WriteLine( "CPU Stood!" );
-            }
-            else
-            {
-                DetermineWinner();
-                GameState.ResetGameState();
-                PlaceBet();
             }
         }
 
@@ -219,7 +233,7 @@
             }
         }
 
-        public void ActionDouble()
+        private void ActionDouble()
         {
             if ( GameState.Money <= GameState.Bet )
             {
@@ -243,10 +257,10 @@
             }
         }
 
-        public void DetermineWinner()
+        private void DetermineWinner()
         {
             DisplayCPUHand();
-            if ( ( GameState.DealerHand.HandValue < GameState.PlayerHand.HandValue ) && !GameState.PlayerHand.IsBust )
+            if ( GameState.DealerHand.HandValue < GameState.PlayerHand.HandValue && !GameState.PlayerHand.IsBust )
             {
                 Console.WriteLine( "Player has won" );
                 var oC = Console.ForegroundColor; // Original console foreground colour
@@ -280,26 +294,23 @@
 
             // CPUHand
 
-            if ( ( GameState.DealerHand.HandValue < GameState.CPUHand.HandValue ) && !GameState.CPUHand.IsBust )
+            if ( GameState.DealerHand.HandValue < GameState.CPUHand.HandValue && !GameState.CPUHand.IsBust )
             {
                 Console.WriteLine( "CPU has won" );
             }
             else if ( !GameState.DealerHand.IsBust )
             {
-                Console.WriteLine( "Dealer has won" );
             }
             else if ( GameState.DealerHand.HandValue == GameState.CPUHand.HandValue && !GameState.CPUHand.IsBust )
             {
-                GameState.Money += GameState.Bet;
             }
             else if ( GameState.DealerHand.IsBust )
             {
                 Console.WriteLine( "The CPU has won! Dealer went bust." );
-                GameState.Money += GameState.Bet * 2;
             }
             else
             {
-                Console.WriteLine( "No one has won! Both player and dealer went bust!" );
+                Console.WriteLine( "No one has won! Both CPU and dealer went bust!" );
             }
         }
     }
