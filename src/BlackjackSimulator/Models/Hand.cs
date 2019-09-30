@@ -11,6 +11,19 @@
         public bool IsBust => HandValue > 21;
 
 
+        public void ReinitialiseHandFromSplit(Card card)
+        {
+            Cards = new List<Card>
+            {
+                new Card()
+                {
+                    Rank = card.Rank,
+                    Suit = card.Suit,
+                    IsVisible = card.IsVisible
+                }
+            };
+        }
+
         public override string ToString()
         {
             var sb = new StringBuilder();

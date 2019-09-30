@@ -61,6 +61,9 @@
                         break;
                     case PlayerAction.Exit:
                         return;
+                    case PlayerAction.Split:
+                        ActionSplit();
+                        return;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -85,7 +88,7 @@
             GameState.DetectBlackjack();
         }
 
-        public void DisplayPlayerSplitHand()
+        private void DisplayPlayerSplitHand()
         {
             Console.WriteLine( "\r\nSplit Hand:\r\n" );
             var hand = asciiGenerator.GenerateCardHandRepresentation( GameState.PlayerSplitHand );
@@ -160,34 +163,75 @@
             }
         }
 
-        public void ActionSplit()
+        private void ActionSplit()
         {
             Console.WriteLine( $"\r\nYou chose split! {GameState.Bet} has been taken." );
             GameState.Money -= GameState.Bet;
 
-            var groups = GameState.PlayerHand.Cards.GroupBy( x => new { x.Rank, x.Suit } );
-            var cardsPerGroup = groups.Select( x => x.Count() );
+            var card1 = GameState.PlayerHand.Cards.FirstOrDefault();
+
+            GameState.PlayerHand.ReinitialiseHandFromSplit( card1 );
+            GameState.PlayerSplitHand.ReinitialiseHandFromSplit( card1 );
         }
 
         private void ActionHit()
         {
             Console.WriteLine( "\r\nYou chose hit!" );
 
-            GameState.DealPlayerCard();
-            DisplayPlayerHand();
-
-            if ( GameState.PlayerHand.HandValue > 21 )
+            int bust = 0;
+            
+            if ( GameState.PlayerHand.HandValue > 21  && !GameState.DetectSplitability())
             {
-                var oldColour = Console.ForegroundColor;
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine( "You have gone bust!" );
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine( "To start a new game press (h)." );
-                Console.ForegroundColor = oldColour;
+                Console.WriteLine("You have gone bust!\r\nPress (h) to restart.");
                 GameState.ResetGameState();
-                Console.WriteLine( $"Money: {GameState.Money}, Stake: {GameState.Bet}" );
                 PlaceBet();
             }
+
+            if ( GameState.DetectSplitability() )
+            {
+                if ( !GameState.PlayerSplitHand.IsBust )
+                {
+                    GameState.DealPlayerSplitCard();
+                    DisplayPlayerSplitHand();
+                }
+
+                if ( GameState.PlayerSplitHand.IsBust )
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine( "One of your hands have gone bust!" );
+                    bust++;
+                }
+            }
+
+            if ( !GameState.PlayerHand.IsBust )
+            {
+                GameState.DealPlayerCard();
+                DisplayPlayerHand();
+            }
+
+            if ( bust == 2 )
+            {
+                var oc = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine( "All of your hands have bust!" );
+                Console.ForegroundColor = oc;
+                bust = 0;
+                GameState.ResetGameState();
+                PlaceBet();
+            }
+
+//            if ( GameState.PlayerHand.HandValue > 21 || GameState.PlayerSplitHand.HandValue > 21 )
+//            {
+//                var oldColour = Console.ForegroundColor;
+//                Console.ForegroundColor = ConsoleColor.Red;
+//                Console.WriteLine( "You have gone bust!" );
+//                Console.ForegroundColor = ConsoleColor.Cyan;
+//                Console.WriteLine( "To start a new game press (h)." );
+//                Console.ForegroundColor = oldColour;
+//                GameState.ResetGameState();
+//                Console.WriteLine( $"Money: {GameState.Money}, Stake: {GameState.Bet}" );
+//                PlaceBet();
+//            }
         }
 
         private void ActionHitCPU()
@@ -298,12 +342,8 @@
             {
                 Console.WriteLine( "CPU has won" );
             }
-            else if ( !GameState.DealerHand.IsBust )
-            {
-            }
-            else if ( GameState.DealerHand.HandValue == GameState.CPUHand.HandValue && !GameState.CPUHand.IsBust )
-            {
-            }
+            else if ( !GameState.DealerHand.IsBust ) { }
+            else if ( GameState.DealerHand.HandValue == GameState.CPUHand.HandValue && !GameState.CPUHand.IsBust ) { }
             else if ( GameState.DealerHand.IsBust )
             {
                 Console.WriteLine( "The CPU has won! Dealer went bust." );

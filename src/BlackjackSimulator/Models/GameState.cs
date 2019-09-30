@@ -6,7 +6,7 @@
 
     public class GameState
     {
-        public Shoe CurrentShoe { get; set; }
+        private Shoe CurrentShoe { get; set; }
         public double Money { get; set; } = 1000;
         public Hand PlayerHand { get; set; }
         public Hand PlayerSplitHand { get; set; }
@@ -43,6 +43,18 @@
 
             return card;
         }
+
+        public Card DealPlayerSplitCard()
+        {
+            var originalShoe = CurrentShoe.Cards.ToList();
+            var card = originalShoe[ 0 ];
+
+            PlayerSplitHand.Cards.Add( card );
+            CurrentShoe.Cards.Remove( card );
+
+            return card;
+        }
+
         public Card DealCPUCard()
         {
             var originalShoe = CurrentShoe.Cards.ToList();
@@ -59,7 +71,7 @@
             var originalShoe = CurrentShoe.Cards.ToList();
             var card = originalShoe[ 0 ];
 
-            var invisibleCard = new Card()
+            var invisibleCard = new Card
             {
                 Rank = card.Rank,
                 Suit = card.Suit,
@@ -98,7 +110,7 @@
                 return false;
             }
 
-            if (PlayerHand.HandValue == 21 && PlayerHand.Cards.All( card => card.Rank == Rank.Ace || card.Rank == Rank.King || card.Rank == Rank.Queen || card.Rank == Rank.King || card.Rank == Rank.Jack ))
+            if ( PlayerHand.HandValue == 21 && PlayerHand.Cards.All( card => card.Rank == Rank.Ace || card.Rank == Rank.King || card.Rank == Rank.Queen || card.Rank == Rank.King || card.Rank == Rank.Jack ) )
             {
                 var oC = Console.ForegroundColor;
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -118,14 +130,14 @@
             {
                 var groups = PlayerHand.Cards.GroupBy( x => new { x.Rank, x.Suit } );
                 var cardsPerGroup = groups.Select( x => x.Count() );
-                Console.WriteLine("Splitability detected!");
-                return cardsPerGroup.Any( x => x >= 2);
+                Console.WriteLine( "Splitability detected!" );
+                return cardsPerGroup.Any( x => x >= 2 );
             }
 
             return false;
         }
 
-        public void CheckPlayerHasMoney()
+        private void CheckPlayerHasMoney()
         {
             if ( Money <= 0 )
             {
