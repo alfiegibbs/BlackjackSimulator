@@ -117,6 +117,46 @@
             hand.Render();
         }
 
+        private double GetProfit()
+        {
+            if ( GameState.Money > 1000 )
+            {
+                double profit = GameState.Money - 1000;
+                return profit;
+            }
+
+            return 0;
+        }
+
+        private double GetLoss()
+        {
+            if ( GameState.Money < 1000 )
+            {
+                double loss = 1000 - GameState.Money;
+                return loss;
+            }
+
+            return 0;
+        }
+
+        private string DetermineLossProfit()
+        {
+            if ( GameState.Money < 1000 )
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                // ReSharper disable SpecifyACultureInStringConversionExplicitly
+                return $"You are down by {GetLoss().ToString()}";
+            }
+
+            if ( GameState.Money > 1000 )
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                return $"You are up by {GetProfit().ToString()}";
+            }
+
+            return "";
+        }
+
         private PlayerAction GetUserChoice()
         {
             while ( true )
@@ -124,6 +164,10 @@
                 Console.ResetColor();
                 Console.WriteLine( $"Money: {GameState.Money}, Stake: {GameState.Bet}" );
                 Console.WriteLine( "Enter (h) to hit, (s) to stand, (d) to double, (q) to quit, (p) to split" );
+                Console.WriteLine( $"Games Won: {GameState.Won}\r\nGames Lost: {GameState.Loss}" );
+                Console.WriteLine( $"Rounds played: {GameState.RoundsPlayed}" );
+                Console.WriteLine( $"{DetermineLossProfit()}" );
+                Console.ForegroundColor = ConsoleColor.Gray;
 
                 var option = Console.ReadKey();
 
@@ -174,15 +218,19 @@
             GameState.PlayerSplitHand.ReinitialiseHandFromSplit( card1 );
         }
 
-        private void ActionHit()
+        public void ActionHit()
         {
             Console.WriteLine( "\r\nYou chose hit!" );
 
-            int bust = 0;
-            
-            if ( GameState.PlayerHand.HandValue > 21  && !GameState.DetectSplitability())
+            var bust = 0;
+
+            if ( GameState.PlayerHand.HandValue > 21 )
             {
-                Console.WriteLine("You have gone bust!\r\nPress (h) to restart.");
+                var oc = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine( "You have gone bust!\r\nPress (enter) to restart." );
+                Console.ReadLine();
+                Console.ForegroundColor = oc;
                 GameState.ResetGameState();
                 PlaceBet();
             }
@@ -219,19 +267,6 @@
                 GameState.ResetGameState();
                 PlaceBet();
             }
-
-//            if ( GameState.PlayerHand.HandValue > 21 || GameState.PlayerSplitHand.HandValue > 21 )
-//            {
-//                var oldColour = Console.ForegroundColor;
-//                Console.ForegroundColor = ConsoleColor.Red;
-//                Console.WriteLine( "You have gone bust!" );
-//                Console.ForegroundColor = ConsoleColor.Cyan;
-//                Console.WriteLine( "To start a new game press (h)." );
-//                Console.ForegroundColor = oldColour;
-//                GameState.ResetGameState();
-//                Console.WriteLine( $"Money: {GameState.Money}, Stake: {GameState.Bet}" );
-//                PlaceBet();
-//            }
         }
 
         private void ActionHitCPU()
@@ -311,13 +346,10 @@
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine( "You have earnt 2x your initial bet!" );
                 GameState.Money += GameState.Bet * 2;
+                GameState.Won++;
                 Console.ForegroundColor = oC;
             }
-            else if ( !GameState.DealerHand.IsBust )
-            {
-                Console.WriteLine( "Dealer has won" );
-            }
-            else if ( GameState.DealerHand.HandValue == GameState.PlayerHand.HandValue && !GameState.PlayerHand.IsBust )
+            else if ( GameState.DealerHand.HandValue == GameState.PlayerHand.HandValue )
             {
                 Console.WriteLine( "It's a draw! Initial bet has been returned to the player" );
                 GameState.Money += GameState.Bet;
@@ -329,11 +361,17 @@
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine( "You have earnt 2x your initial bet!" );
                 GameState.Money += GameState.Bet * 2;
+                GameState.Won++;
                 Console.ForegroundColor = oC;
             }
-            else
+            else if (GameState.PlayerHand.IsBust || GameState.PlayerHand.HandValue < 21)
+            {
+                Console.WriteLine("Player has gone bust!");
+            }
+            else if (GameState.PlayerHand.IsBust && GameState.DealerHand.IsBust)
             {
                 Console.WriteLine( "No one has won! Both player and dealer went bust!" );
+                GameState.Loss++;
             }
 
             // CPUHand

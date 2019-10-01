@@ -13,6 +13,10 @@
         public Hand DealerHand { get; set; }
         public Hand CPUHand { get; set; }
         public double Bet { get; set; } = 100;
+        public int Won { get; set; }
+        public int Loss { get; set; }
+        public int RoundsPlayed { get; set; }
+
 
         public GameState()
         {
@@ -31,6 +35,14 @@
             CheckPlayerHasMoney();
         }
 
+        private void SetAceValue(Card card)
+        {
+            if ( PlayerHand.HandValue > 10 && card.Rank == Rank.Ace )
+            {
+                PlayerHand.IsAceWorth1 = false;
+            }
+        }
+
         public Card DealPlayerCard()
         {
             var originalShoe = CurrentShoe.Cards.ToList();
@@ -38,6 +50,7 @@
 
             PlayerHand.Cards.Add( card );
             CurrentShoe.Cards.Remove( card );
+            SetAceValue(card);
 
             DetectSplitability();
 

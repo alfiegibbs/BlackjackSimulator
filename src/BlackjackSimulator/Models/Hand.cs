@@ -7,15 +7,16 @@
     public class Hand
     {
         public List<Card> Cards { get; set; } = new List<Card>();
-        public int HandValue => Cards.Sum( x => x.Value );
+        public int HandValue => Cards.Sum( x => x.Rank == Rank.Ace && IsAceWorth1 ? 1 : x.Value );
+        public bool IsAceWorth1 { get; set; }
         public bool IsBust => HandValue > 21;
 
 
-        public void ReinitialiseHandFromSplit(Card card)
+        public void ReinitialiseHandFromSplit( Card card )
         {
             Cards = new List<Card>
             {
-                new Card()
+                new Card
                 {
                     Rank = card.Rank,
                     Suit = card.Suit,
