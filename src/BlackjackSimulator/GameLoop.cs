@@ -339,7 +339,7 @@
         private void DetermineWinner()
         {
             DisplayCPUHand();
-            if ( GameState.DealerHand.HandValue < GameState.PlayerHand.HandValue && !GameState.PlayerHand.IsBust )
+            if ( GameState.DealerHand.HandValue < GameState.PlayerHand.HandValue && GameState.PlayerHand.HandValue > 21 )
             {
                 Console.WriteLine( "Player has won" );
                 var oC = Console.ForegroundColor; // Original console foreground colour
@@ -349,7 +349,7 @@
                 GameState.Won++;
                 Console.ForegroundColor = oC;
             }
-            else if ( GameState.DealerHand.HandValue == GameState.PlayerHand.HandValue )
+            else if ( GameState.DealerHand.HandValue == GameState.PlayerHand.HandValue && !( GameState.DealerHand.IsBust && GameState.PlayerHand.IsBust ) )
             {
                 Console.WriteLine( "It's a draw! Initial bet has been returned to the player" );
                 GameState.Money += GameState.Bet;
@@ -364,13 +364,19 @@
                 GameState.Won++;
                 Console.ForegroundColor = oC;
             }
-            else if (GameState.PlayerHand.IsBust || GameState.PlayerHand.HandValue < 21)
+            else if ( GameState.PlayerHand.IsBust || GameState.PlayerHand.HandValue > 21 )
             {
-                Console.WriteLine("Player has gone bust!");
+                Console.WriteLine( "Player has gone bust!" );
+                GameState.Loss++;
             }
-            else if (GameState.PlayerHand.IsBust && GameState.DealerHand.IsBust)
+            else if ( GameState.PlayerHand.IsBust && GameState.DealerHand.IsBust )
             {
                 Console.WriteLine( "No one has won! Both player and dealer went bust!" );
+                GameState.Loss++;
+            }
+            else if ( GameState.PlayerHand.HandValue < GameState.DealerHand.HandValue && !GameState.DealerHand.IsBust )
+            {
+                Console.WriteLine( "Dealer has won!" );
                 GameState.Loss++;
             }
 

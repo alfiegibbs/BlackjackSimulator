@@ -24,7 +24,7 @@
                     
                     new Card
                     {
-                        Rank = Rank.Jack,
+                        Rank = Rank.Ten,
                         Suit = Suit.Clubs
                     }
                 }

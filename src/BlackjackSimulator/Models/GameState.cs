@@ -123,7 +123,7 @@
                 return false;
             }
 
-            if ( PlayerHand.HandValue == 21 && PlayerHand.Cards.All( card => card.Rank == Rank.Ace || card.Rank == Rank.King || card.Rank == Rank.Queen || card.Rank == Rank.King || card.Rank == Rank.Jack ) )
+            if ( PlayerHand.HandValue == 21 && PlayerHand.Cards.All( card => card.Rank == Rank.Ace || card.Rank == Rank.King || card.Rank == Rank.Queen || card.Rank == Rank.Ten || card.Rank == Rank.Jack ) )
             {
                 var oC = Console.ForegroundColor;
                 Console.ForegroundColor = ConsoleColor.Green;
