@@ -48,6 +48,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameLoop.cs" />
+    <Compile Include="Models\Card.cs" />
+    <Compile Include="Models\CardData.cs" />
+    <Compile Include="Models\DeckGenerator.cs" />
+    <Compile Include="Models\Hand.cs" />
+    <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\Rank.cs" />
+    <Compile Include="Models\Result.cs" />
+    <Compile Include="Models\Shoe.cs" />
+    <Compile Include="Models\ShoeGenerator.cs" />
+    <Compile Include="Models\Suit.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

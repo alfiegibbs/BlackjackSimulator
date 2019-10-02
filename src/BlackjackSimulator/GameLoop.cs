@@ -12,7 +12,8 @@
 
         public void Start()
         {
-            
+            Console.WriteLine( "Welcome to the Command Line Blackjack!" );
+
         }
     }
 }
