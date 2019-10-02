@@ -47,20 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Deck\DeckGenerator.cs" />
-    <Compile Include="Deck\ShoeGenerator.cs" />
     <Compile Include="GameLoop.cs" />
-    <Compile Include="Deck\ASCIICardGenerator.cs" />
-    <Compile Include="Models\CardColour\CardHandRepresentation.cs" />
-    <Compile Include="Models\CardExtensions.cs" />
-    <Compile Include="Models\CPULogic.cs" />
-    <Compile Include="Models\GameState.cs" />
-    <Compile Include="Models\Hand.cs" />
-    <Compile Include="Models\PlayerAction.cs" />
-    <Compile Include="Models\Shoe.cs" />
-    <Compile Include="Models\Card.cs" />
-    <Compile Include="Models\Rank.cs" />
-    <Compile Include="Models\Suit.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
