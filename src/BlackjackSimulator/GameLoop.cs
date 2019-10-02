@@ -287,7 +287,8 @@
                 Console.WriteLine( "\r\nYou chose stand!" );
 
                 DealDealerCards();
-                Console.WriteLine( "\r\nDealer Cards:\r\n" );
+                Console.WriteLine( "\r\nDealer Cards:" );
+                Console.WriteLine( "\r\nDealer Hand Value: " + GameState.DealerHand.HandValue );
                 DisplayDealerHand();
                 DetermineWinner();
                 GameState.ResetGameState();
@@ -323,7 +324,8 @@
                 GameState.DealPlayerCard();
                 DisplayPlayerHand();
                 DealDealerCards();
-                Console.WriteLine( "\r\nDealer Cards:\r\n" );
+                Console.WriteLine( "\r\nDealer Cards:" );
+                Console.WriteLine( "\r\nDealer Hand Value: " + GameState.DealerHand.HandValue );
                 DisplayDealerHand();
                 DetermineWinner();
                 GameState.ResetGameState();
@@ -338,8 +340,14 @@
 
         private void DetermineWinner()
         {
+            GameState.RoundsPlayed++;
             DisplayCPUHand();
-            if ( GameState.DealerHand.HandValue < GameState.PlayerHand.HandValue && GameState.PlayerHand.HandValue > 21 )
+            if ( GameState.PlayerHand.HandValue > 21 )
+            {
+                Console.WriteLine( "Player has gone bust!" );
+                GameState.Loss++;
+            }
+            if ( GameState.DealerHand.HandValue < GameState.PlayerHand.HandValue && GameState.PlayerHand.HandValue < 21 )
             {
                 Console.WriteLine( "Player has won" );
                 var oC = Console.ForegroundColor; // Original console foreground colour
@@ -349,12 +357,17 @@
                 GameState.Won++;
                 Console.ForegroundColor = oC;
             }
-            else if ( GameState.DealerHand.HandValue == GameState.PlayerHand.HandValue && !( GameState.DealerHand.IsBust && GameState.PlayerHand.IsBust ) )
+            if ( GameState.DealerHand.HandValue == GameState.PlayerHand.HandValue && !( GameState.DealerHand.IsBust && GameState.PlayerHand.IsBust ) )
             {
                 Console.WriteLine( "It's a draw! Initial bet has been returned to the player" );
                 GameState.Money += GameState.Bet;
             }
-            else if ( GameState.DealerHand.IsBust )
+            if ( GameState.PlayerHand.HandValue > 21 && GameState.DealerHand.HandValue > 21)
+            {
+                Console.WriteLine( "No one has won! Both player and dealer went bust!" );
+                GameState.Loss++;
+            }
+            if ( GameState.DealerHand.IsBust && !GameState.PlayerHand.IsBust )
             {
                 Console.WriteLine( "The player has won! Dealer went bust." );
                 var oC = Console.ForegroundColor; // Original console foreground colour
@@ -364,17 +377,7 @@
                 GameState.Won++;
                 Console.ForegroundColor = oC;
             }
-            else if ( GameState.PlayerHand.IsBust || GameState.PlayerHand.HandValue > 21 )
-            {
-                Console.WriteLine( "Player has gone bust!" );
-                GameState.Loss++;
-            }
-            else if ( GameState.PlayerHand.IsBust && GameState.DealerHand.IsBust )
-            {
-                Console.WriteLine( "No one has won! Both player and dealer went bust!" );
-                GameState.Loss++;
-            }
-            else if ( GameState.PlayerHand.HandValue < GameState.DealerHand.HandValue && !GameState.DealerHand.IsBust )
+            if ( GameState.PlayerHand.HandValue < GameState.DealerHand.HandValue && !GameState.DealerHand.IsBust )
             {
                 Console.WriteLine( "Dealer has won!" );
                 GameState.Loss++;
