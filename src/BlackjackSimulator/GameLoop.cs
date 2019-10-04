@@ -1,9 +1,11 @@
 ﻿namespace BlackjackSimulator
 {
     using System;
+    using BlackjackSimulator.Models;
 
     public class GameLoop
     {
+        private GameActions GameActions { get; } = new GameActions();
 
         public GameLoop()
         {
@@ -13,7 +15,8 @@
         public void Start()
         {
             Console.WriteLine( "Welcome to the Command Line Blackjack!" );
-
+            GameActions.InitialiseGameState();
+            GameActions.DealCard( GameActions.PlayerHand);
         }
     }
-}
+} 

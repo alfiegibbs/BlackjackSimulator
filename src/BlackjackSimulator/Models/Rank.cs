@@ -1,4 +1,5 @@
-﻿namespace BlackjackSimulator.Models {
+﻿namespace BlackjackSimulator.Models
+{
     public enum Rank
     {
         Two,
