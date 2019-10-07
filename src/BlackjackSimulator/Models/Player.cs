@@ -6,7 +6,7 @@
     {
         public double Money { get; set; } = 1000;
         public double Bet { get; set; } = 100;
-        public List<Result> Results { get; set; }
-        public List<Hand> Hands { get; set; }
+        public List<Result> Results { get; set; } = new List<Result>();
+        public List<Hand> Hands { get; set; } = new List<Hand>();
     }
 }

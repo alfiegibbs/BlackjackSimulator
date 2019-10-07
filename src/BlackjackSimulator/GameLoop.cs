@@ -15,10 +15,20 @@
         public void Start()
         {
             Console.WriteLine( "Welcome to the Command Line Blackjack!" );
-            GameActions.InitialiseGameState();
-            GameActions.DealCard( GameActions.PlayerHand);
-            GameActions.DisplayHand( GameActions.PlayerHand );
-            Console.ReadLine();
+
+            Console.WriteLine( "How many players are playing?:" );
+            int count = int.Parse( Console.ReadLine() ?? throw new InvalidOperationException() );
+            GameActions.InitialiseGameState( count );
+            Game();
+        }
+
+        private void Game()
+        {
+            while ( GameActions.GameMode )
+            {
+                Console.WriteLine( "\r\nPress (h) to hit, (s) to stand, (d) to double, (p) to split, (q) to quit." );
+                GameActions.GetUserChoice();
+            }
         }
     }
-} 
+}
