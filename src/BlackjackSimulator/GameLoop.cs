@@ -17,6 +17,8 @@
             Console.WriteLine( "Welcome to the Command Line Blackjack!" );
             GameActions.InitialiseGameState();
             GameActions.DealCard( GameActions.PlayerHand);
+            GameActions.DisplayHand( GameActions.PlayerHand );
+            Console.ReadLine();
         }
     }
 } 
