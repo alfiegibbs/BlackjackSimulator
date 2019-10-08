@@ -7,8 +7,8 @@
 
     public class GameActions
     {
-        private List<Player> Players { get; set; } = new List<Player>();
-        private Shoe CurrentShoe { get; set; }
+        internal List<Player> Players { get; set; } = new List<Player>();
+        public Shoe CurrentShoe { get; set; }
         private Hand PlayerHand { get; set; } = new Hand();
         public int PlayerCount => Players.Count;
         public List<Player> Hand { get; set; }
@@ -35,17 +35,14 @@
             foreach ( var player in Players )
             {
                 player.AddToHand( new Hand() );
-                foreach ( var playerHand in player.Hands ) player.AddInitialCardsToHand( playerHand, CurrentShoe );
+                foreach ( var playerHand in player.Hands )
+                {
+                    playerHand.AddCard( CurrentShoe.DealCard() );
+                }
             }
         }
 
-        private Card DealCard( Hand hand )
-        {
-            var cardFromShoe = CurrentShoe.DealCard();
-            hand.AddCard( cardFromShoe );
-
-            return cardFromShoe;
-        }
+ 
 
         // ReSharper disable MemberCanBeMadeStatic.Global
         public void DisplayHand( Hand hand )
@@ -88,7 +85,7 @@
         private void Hit()
         {
             Console.WriteLine( "You chose hit!\r\n" );
-            DealCard( PlayerHand );
+            new Dealer().DealCard( PlayerHand );
 
             // Need to treat CPU player and non cpu player the same.
         }
@@ -113,14 +110,6 @@
             foreach ( var player in Players )
             {
                 player.TakeBet();
-            }
-        }
-
-        public void InitialPlayerDeal()
-        {
-            for ( var i = 0; i < 2; i++ )
-            {
-                GeneratePlayerHands();
             }
         }
     }

@@ -27,7 +27,6 @@
             while ( !GameActions.IsGameCancelled )
             {
                 GameActions.TakeBet();
-                GameActions.InitialPlayerDeal();
                 GameActions.GetAndInvokePlayerChoice();
 
                 /*
