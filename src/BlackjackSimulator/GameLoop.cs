@@ -28,7 +28,6 @@
             {
                 GameActions.TakeBet();
                 GameActions.GetAndInvokePlayerChoice();
-
                 /*
                  * take a bet before dealing from each player
                  * deal cards to all players and the dealer 

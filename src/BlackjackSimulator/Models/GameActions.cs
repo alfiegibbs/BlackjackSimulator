@@ -3,12 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Security.Cryptography.X509Certificates;
 
     public class GameActions
     {
-        internal List<Player> Players { get; set; } = new List<Player>();
-        public Shoe CurrentShoe { get; set; }
+        private Dealer Dealer = new Dealer();
+        private List<Player> Players { get; set; } = new List<Player>();
+        public static Shoe CurrentShoe { get; private set; }
         private Hand PlayerHand { get; set; } = new Hand();
         public int PlayerCount => Players.Count;
         public List<Player> Hand { get; set; }
@@ -19,6 +19,7 @@
             GeneratePlayers( i );
             CurrentShoe = new ShoeGenerator().GenerateShoe( 4 );
             CurrentShoe.Shuffle();
+            GeneratePlayerHands();
         }
 
         internal void GeneratePlayers( int i )
@@ -30,7 +31,7 @@
             }
         }
 
-        public void GeneratePlayerHands()
+        private void GeneratePlayerHands()
         {
             foreach ( var player in Players )
             {
@@ -42,10 +43,9 @@
             }
         }
 
- 
 
         // ReSharper disable MemberCanBeMadeStatic.Global
-        public void DisplayHand( Hand hand )
+        private void DisplayHand( Hand hand )
         {
             string text = hand.Cards
                               .Select( x => x.ToString() ) // goes over the cards and gets a string representation of them and sticks them in a list
@@ -85,7 +85,8 @@
         private void Hit()
         {
             Console.WriteLine( "You chose hit!\r\n" );
-            new Dealer().DealCard( PlayerHand );
+            Dealer.DealCard( PlayerHand );
+            DisplayHand( PlayerHand );
 
             // Need to treat CPU player and non cpu player the same.
         }

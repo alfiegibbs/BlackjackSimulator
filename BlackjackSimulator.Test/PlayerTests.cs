@@ -6,11 +6,10 @@
 
     public class PlayerTests
     {
-
         [ Theory ]
-        [ InlineData(5)]
-        [ InlineData(10)]
-        public void ShouldGeneratePlayers(int i )
+        [ InlineData( 5 ) ]
+        [ InlineData( 10 ) ]
+        public void ShouldGeneratePlayers( int i )
         {
             var gameAction = new GameActions();
             gameAction.GeneratePlayers( i );

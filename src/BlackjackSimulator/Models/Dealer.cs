@@ -6,12 +6,10 @@
 
         public Card DealCard( Hand hand )
         {
-            var cardFromShoe = new GameActions().CurrentShoe.DealCard();
+            var cardFromShoe = GameActions.CurrentShoe.DealCard();
             hand.AddCard( cardFromShoe );
 
             return cardFromShoe;
         }
     }
-
-
 }
