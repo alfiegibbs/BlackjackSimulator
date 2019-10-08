@@ -9,10 +9,10 @@
     {
         private List<Player> Players { get; set; } = new List<Player>();
         private Shoe CurrentShoe { get; set; }
-        public Hand PlayerHand { get; set; } = new Hand();
+        private Hand PlayerHand { get; set; } = new Hand();
         public int PlayerCount => Players.Count;
         public List<Player> Hand { get; set; }
-        public bool GameMode { get; set; } = true;
+        public bool IsGameCancelled { get; set; }
 
         public void InitialiseGameState( int i )
         {
@@ -29,8 +29,8 @@
                 Players.Add( player );
             }
         }
-
-        public Card DealCard( Hand hand )
+        
+        private Card DealCard( Hand hand )
         {
             var cardFromShoe = CurrentShoe.DealCard();
             hand.AddCard( cardFromShoe );
@@ -48,19 +48,24 @@
             Console.WriteLine( text );
         }
 
-        public void GetUserChoice()
+        public void GetAndInvokePlayerChoice()
         {
+            Console.WriteLine( "\r\nPress (h) to hit, (s) to stand, (d) to double, (p) to split, (q) to quit." );
             var key = Console.ReadKey();
-
+            
             switch ( key.Key )
             {
                 case ConsoleKey.H:
+                    Hit();
                     break;
                 case ConsoleKey.S:
+                    Stand();
                     break;
                 case ConsoleKey.D:
+                    Double();
                     break;
                 case ConsoleKey.P:
+                    Split();
                     break;
                 case ConsoleKey.Q:
                     Environment.Exit( 0 );
@@ -71,9 +76,43 @@
             }
         }
 
-        public void Hit() { }
-        public void Stand() { }
-        public void Double() { }
-        public void Split() { }
+        private void Hit()
+        {
+            Console.WriteLine("You chose hit!\r\n");
+            DealCard( PlayerHand );
+
+            // Need to treat CPU player and non cpu player the same.
+        }
+
+        private void Stand()
+        {
+            Console.WriteLine("You chose stand!\r\n");
+        }
+
+        private void Double()
+        {
+            Console.WriteLine("You chose double!\r\n");
+        }
+
+        private void Split()
+        {
+            Console.WriteLine("You chose split!\r\n");
+        }
+
+        public void TakeBet()
+        {
+            foreach ( var player in Players )
+            {
+                player.TakeBet();
+            }
+        }
+
+        public void InitialPlayerDeal()
+        {
+            foreach ( var player in Players )
+            {
+//                DealCard(  )
+            }
+        }
     }
 }

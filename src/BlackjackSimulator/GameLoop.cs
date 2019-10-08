@@ -24,10 +24,16 @@
 
         private void Game()
         {
-            while ( GameActions.GameMode )
+            while ( !GameActions.IsGameCancelled )
             {
-                Console.WriteLine( "\r\nPress (h) to hit, (s) to stand, (d) to double, (p) to split, (q) to quit." );
-                GameActions.GetUserChoice();
+                GameActions.TakeBet();
+                GameActions.InitialPlayerDeal();
+                GameActions.GetAndInvokePlayerChoice();
+
+                /*
+                 * take a bet before dealing from each player
+                 * deal cards to all players and the dealer 
+                 */
             }
         }
     }
