@@ -13,5 +13,15 @@
         {
             Money -= Bet;
         }
+
+        public void AddToHand( Hand hand )
+        {
+            Hands.Add( hand );
+        }
+
+        public void AddInitialCardsToHand( Hand hand, Shoe shoe )
+        {
+            hand.AddCard( shoe.DealCard() );
+        }
     }
 }

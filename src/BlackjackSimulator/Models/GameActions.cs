@@ -29,7 +29,16 @@
                 Players.Add( player );
             }
         }
-        
+
+        public void GeneratePlayerHands()
+        {
+            foreach ( var player in Players )
+            {
+                player.AddToHand( new Hand() );
+                foreach ( var playerHand in player.Hands ) player.AddInitialCardsToHand( playerHand, CurrentShoe );
+            }
+        }
+
         private Card DealCard( Hand hand )
         {
             var cardFromShoe = CurrentShoe.DealCard();
@@ -52,7 +61,7 @@
         {
             Console.WriteLine( "\r\nPress (h) to hit, (s) to stand, (d) to double, (p) to split, (q) to quit." );
             var key = Console.ReadKey();
-            
+
             switch ( key.Key )
             {
                 case ConsoleKey.H:
@@ -78,7 +87,7 @@
 
         private void Hit()
         {
-            Console.WriteLine("You chose hit!\r\n");
+            Console.WriteLine( "You chose hit!\r\n" );
             DealCard( PlayerHand );
 
             // Need to treat CPU player and non cpu player the same.
@@ -86,17 +95,17 @@
 
         private void Stand()
         {
-            Console.WriteLine("You chose stand!\r\n");
+            Console.WriteLine( "You chose stand!\r\n" );
         }
 
         private void Double()
         {
-            Console.WriteLine("You chose double!\r\n");
+            Console.WriteLine( "You chose double!\r\n" );
         }
 
         private void Split()
         {
-            Console.WriteLine("You chose split!\r\n");
+            Console.WriteLine( "You chose split!\r\n" );
         }
 
         public void TakeBet()
@@ -109,9 +118,9 @@
 
         public void InitialPlayerDeal()
         {
-            foreach ( var player in Players )
+            for ( var i = 0; i < 2; i++ )
             {
-//                DealCard(  )
+                GeneratePlayerHands();
             }
         }
     }
