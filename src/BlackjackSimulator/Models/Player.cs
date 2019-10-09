@@ -8,6 +8,7 @@
         private double Money { get; set; } = 1000;
         public List<Result> Results { get; set; } = new List<Result>();
         public List<Hand> Hands { get; set; } = new List<Hand>();
+        public bool IsBust { get; set; }
 
         public void TakeBet()
         {

@@ -14,6 +14,7 @@ namespace BlackjackSimulator.Models
         public int PlayerCount => Players.Count;
         public List<Player> Hand { get; set; }
         public bool IsGameCancelled { get; set; }
+        public Player CurrentPlayer { get; set; }
 
         public void InitialiseGameState( int i )
         {
@@ -88,6 +89,7 @@ namespace BlackjackSimulator.Models
             Console.WriteLine( "You chose hit!\r\n" );
             Dealer.DealCard( PlayerHand );
             DisplayHand( PlayerHand );
+            RunDetects( PlayerHand );
 
             // Need to treat CPU player and non cpu player the same.
         }
@@ -105,6 +107,23 @@ namespace BlackjackSimulator.Models
         private void Split()
         {
             Console.WriteLine( "You chose split!\r\n" );
+        }
+
+        private void DetectBust( Hand hand )
+        {
+            if ( hand.Value <= 21 ) return;
+            var oc = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("You have gone bust!");
+            Console.ForegroundColor = oc;
+            Console.WriteLine("Press ENTER to close the application.");
+            Console.ReadLine();
+            IsGameCancelled = true;
+        }
+
+        private void RunDetects(Hand hand)
+        {
+            DetectBust( hand );
         }
 
         public void TakeBet()
