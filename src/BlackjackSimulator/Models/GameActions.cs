@@ -1,4 +1,5 @@
-﻿namespace BlackjackSimulator.Models
+﻿// ReSharper disable MemberCanBeMadeStatic.Local
+namespace BlackjackSimulator.Models
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +7,7 @@
 
     public class GameActions
     {
-        private Dealer Dealer = new Dealer();
+        private readonly Dealer Dealer = new Dealer();
         private List<Player> Players { get; set; } = new List<Player>();
         public static Shoe CurrentShoe { get; private set; }
         private Hand PlayerHand { get; set; } = new Hand();
@@ -44,7 +45,6 @@
         }
 
 
-        // ReSharper disable MemberCanBeMadeStatic.Global
         private void DisplayHand( Hand hand )
         {
             string text = hand.Cards
@@ -52,6 +52,7 @@
                               .Aggregate( ( lhs, rhs ) => $"{lhs}\r\n{rhs}" ); // sticking the hand together, separated by new lines.
 
             Console.WriteLine( text );
+            Console.WriteLine($"Your current Hand Value is: {PlayerHand.Value}");
         }
 
         public void GetAndInvokePlayerChoice()
